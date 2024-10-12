@@ -3,45 +3,50 @@ package com.example.gorodbezproblem
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.gorodbezproblem.ui.theme.GorodBezProblemTheme
+import androidx.navigation.compose.rememberNavController
+import com.yandex.mapkit.MapKitFactory
+import com.yandex.mapkit.mapview.MapView
 
 class MainActivity : ComponentActivity() {
+
+    private lateinit var mapView: MapView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            GorodBezProblemTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+        MapKitFactory.setApiKey("c60d9d3f-42be-4fa6-a050-8f39bb153dce")
+        MapKitFactory.initialize(this)
+        setContentView(R.layout.activity_main)
+        mapView = findViewById(R.id.mapview)
+        /*setContent {
+            // Использование стандартной темы Material Design 3
+            MaterialTheme {
+                MainScreen()  // Подключение основной логики навигации
             }
-        }
+        }*/
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+    override fun onStart() {
+        super.onStart()
+        MapKitFactory.getInstance().onStart()
+        mapView.onStart()
+    }
+
+    override fun onStop() {
+        mapView.onStop()
+        MapKitFactory.getInstance().onStop()
+        super.onStop()
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    GorodBezProblemTheme {
-        Greeting("Android")
+fun DefaultPreview() {
+    MaterialTheme {
+        MainScreen()
     }
 }
+
