@@ -21,12 +21,13 @@ class MainActivity : ComponentActivity() {
         MapKitFactory.initialize(this)
         setContentView(R.layout.activity_main)
         mapView = findViewById(R.id.mapview)
-        /*setContent {
+
+        setContent {
             // Использование стандартной темы Material Design 3
             MaterialTheme {
                 MainScreen()  // Подключение основной логики навигации
             }
-        }*/
+        }
     }
 
     override fun onStart() {

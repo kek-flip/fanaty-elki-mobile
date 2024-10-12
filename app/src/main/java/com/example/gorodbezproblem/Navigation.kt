@@ -1,5 +1,7 @@
 package com.example.gorodbezproblem
 
+import MyXMLLayout
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
@@ -22,11 +24,14 @@ import androidx.compose.runtime.getValue
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
-
     Scaffold(
         bottomBar = { BottomNavigationBar(navController) }
     ) { innerPadding ->
-        NavigationHost(navController, Modifier.padding(innerPadding))
+        Column(modifier = Modifier.padding(innerPadding)) {
+            MyXMLLayout()
+
+            NavigationHost(navController, Modifier.weight(1f)) // Используем weight для правильного размещения
+        }
     }
 }
 
