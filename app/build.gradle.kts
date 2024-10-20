@@ -77,4 +77,5 @@ dependencies {
 
     implementation("com.yandex.android:maps.mobile:4.8.0-lite")
     implementation("com.android.volley:volley:1.2.1")
+    implementation("com.beust:klaxon:5.5")
 }
