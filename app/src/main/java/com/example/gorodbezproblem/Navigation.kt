@@ -1,9 +1,14 @@
 package com.example.gorodbezproblem
 
 import MyXMLLayout
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material3.*
@@ -15,21 +20,36 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.LocationOn
+import androidx.compose.material.icons.outlined.CheckCircle
+import androidx.compose.material.icons.outlined.Person
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.Color.Companion.Green
+import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.unit.dp
 
 
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
     Scaffold(
-        bottomBar = { BottomNavigationBar(navController) }
+        bottomBar = { BottomNavigationBar(navController) },
+        floatingActionButton = {
+            if (currentRoute(navController) == NavigationItem.Home.route) {
+                FloatingActionButton(
+                    onClick = { navController.navigate("report_issue") },
+                    shape = CircleShape,
+                    containerColor = Color.Green,
+                    contentColor = Color.White
+                ) {
+                    Icon(Icons.Outlined.Add, contentDescription = "Add")
+                }
+            }
+        }
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
-            MyXMLLayout()
-
             NavigationHost(navController, Modifier.weight(1f)) // Используем weight для правильного размещения
         }
     }
@@ -39,14 +59,32 @@ fun MainScreen() {
 fun BottomNavigationBar(navController: NavHostController) {
     val items = listOf(
         NavigationItem.Home,
-        NavigationItem.Settings
+        NavigationItem.Tasks,
+        NavigationItem.Profile
     )
-    BottomNavigation() {
-        val currentRoute = currentRoute(navController)
+    BottomNavigation(
+        backgroundColor = White // Белый фон для панели
+    ) {
+        val currentRoute = currentRoute(navController) ?: NavigationItem.Home.route // Подсвечиваем Home при запуске
         items.forEach { item ->
             BottomNavigationItem(
-                icon = { Icon(item.icon, contentDescription = item.title) },
-                label = { Text(item.title) },
+                icon = {
+                    Box(
+                        modifier = Modifier
+                            .size(48.dp) // Размер контейнера
+                            .background(
+                                color = if (currentRoute == item.route) Green else Color.Transparent, // Подсветка для активной иконки
+                                shape = RoundedCornerShape(12.dp) // Скругленные углы
+                            ),
+                        contentAlignment = androidx.compose.ui.Alignment.Center
+                    ) {
+                        Icon(
+                            item.icon,
+                            contentDescription = item.title,
+                            tint = Color.Black // Иконки всегда черного цвета
+                        )
+                    }
+                },
                 selected = currentRoute == item.route,
                 onClick = {
                     if (currentRoute != item.route) {
@@ -56,7 +94,8 @@ fun BottomNavigationBar(navController: NavHostController) {
                             restoreState = true
                         }
                     }
-                }
+                },
+                alwaysShowLabel = false // Убираем текстовые подписи под иконками
             )
         }
     }
@@ -66,21 +105,26 @@ fun BottomNavigationBar(navController: NavHostController) {
 fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(navController, startDestination = NavigationItem.Home.route, modifier = modifier) {
         composable(NavigationItem.Home.route) { HomeScreen() }
-        composable(NavigationItem.Settings.route) { SettingsScreen() }
+        composable(NavigationItem.Tasks.route) { TasksScreen(navController) }
+        composable(NavigationItem.Profile.route) { ProfileScreen() }
+        composable("report_issue") { ReportIssueScreen(navController) }
+        composable("task_details") { TaskDetailsScreen(navController) }
+        composable("location_screen") { LocationScreen(navController) }
     }
 }
+
 
 @Composable
 fun HomeScreen() {
     Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
-        Text(text = "Home Screen", style = MaterialTheme.typography.bodyLarge)
+        MyXMLLayout()
     }
 }
 
 @Composable
-fun SettingsScreen() {
+fun TasksScreen() {
     Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
-        Text(text = "Settings Screen", style = MaterialTheme.typography.bodyLarge)
+        Text(text = "Tasks Screen", style = MaterialTheme.typography.bodyLarge)
     }
 }
 
@@ -91,6 +135,7 @@ fun currentRoute(navController: NavHostController): String? {
 }
 
 sealed class NavigationItem(val route: String, val title: String, val icon: androidx.compose.ui.graphics.vector.ImageVector) {
-    object Home : NavigationItem("home", "Home", Icons.Filled.Home)
-    object Settings : NavigationItem("settings", "Settings", Icons.Filled.Settings)
+    object Home : NavigationItem("home", "Home", Icons.Outlined.LocationOn)
+    object Tasks : NavigationItem("tasks", "Tasks", Icons.Outlined.CheckCircle)
+    object Profile : NavigationItem("profile", "Profile", Icons.Outlined.Person)
 }
