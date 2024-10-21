@@ -1,4 +1,4 @@
-package com.example.gorodbezproblem
+package com.example.gorodbezproblem.views.problems
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*

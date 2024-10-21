@@ -1,4 +1,4 @@
-package com.example.gorodbezproblem
+package com.example.gorodbezproblem.modules
 
 import MyXMLLayout
 import androidx.compose.foundation.background
@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
+import com.example.gorodbezproblem.views.problems.TasksScreen
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -29,7 +30,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.unit.dp
-import com.example.gorodbezproblem.views.createproblem.CreateProblemView
+import com.example.gorodbezproblem.views.profile.ProfileScreen
+import com.example.gorodbezproblem.views.problems.ProblemView
+import com.example.gorodbezproblem.views.problems.CreateProblemView
+import com.example.gorodbezproblem.views.location.LocationScreen
 
 
 @Composable
@@ -51,7 +55,10 @@ fun MainScreen() {
         }
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
-            NavigationHost(navController, Modifier.weight(1f)) // Используем weight для правильного размещения
+            NavigationHost(
+                navController,
+                Modifier.weight(1f)
+            ) // Используем weight для правильного размещения
         }
     }
 }
@@ -66,7 +73,8 @@ fun BottomNavigationBar(navController: NavHostController) {
     BottomNavigation(
         backgroundColor = White // Белый фон для панели
     ) {
-        val currentRoute = currentRoute(navController) ?: NavigationItem.Home.route // Подсвечиваем Home при запуске
+        val currentRoute = currentRoute(navController)
+            ?: NavigationItem.Home.route // Подсвечиваем Home при запуске
         items.forEach { item ->
             BottomNavigationItem(
                 icon = {
@@ -109,7 +117,7 @@ fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifi
         composable(NavigationItem.Tasks.route) { TasksScreen(navController) }
         composable(NavigationItem.Profile.route) { ProfileScreen() }
         composable("report_issue") { CreateProblemView(navController) }
-        composable("task_details") { TaskDetailsScreen(navController) }
+        composable("task_details") { ProblemView(navController) }
         composable("location_screen") { LocationScreen(navController) }
     }
 }
@@ -135,7 +143,11 @@ fun currentRoute(navController: NavHostController): String? {
     return navBackStackEntry?.destination?.route
 }
 
-sealed class NavigationItem(val route: String, val title: String, val icon: androidx.compose.ui.graphics.vector.ImageVector) {
+sealed class NavigationItem(
+    val route: String,
+    val title: String,
+    val icon: androidx.compose.ui.graphics.vector.ImageVector
+) {
     object Home : NavigationItem("home", "Home", Icons.Outlined.LocationOn)
     object Tasks : NavigationItem("tasks", "Tasks", Icons.Outlined.CheckCircle)
     object Profile : NavigationItem("profile", "Profile", Icons.Outlined.Person)
