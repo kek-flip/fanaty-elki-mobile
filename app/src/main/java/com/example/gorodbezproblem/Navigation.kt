@@ -29,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.unit.dp
+import com.example.gorodbezproblem.views.createproblem.CreateProblemView
 
 
 @Composable
@@ -107,7 +108,7 @@ fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifi
         composable(NavigationItem.Home.route) { HomeScreen() }
         composable(NavigationItem.Tasks.route) { TasksScreen(navController) }
         composable(NavigationItem.Profile.route) { ProfileScreen() }
-        composable("report_issue") { ReportIssueScreen(navController) }
+        composable("report_issue") { CreateProblemView(navController) }
         composable("task_details") { TaskDetailsScreen(navController) }
         composable("location_screen") { LocationScreen(navController) }
     }
