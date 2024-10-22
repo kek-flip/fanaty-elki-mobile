@@ -1,6 +1,5 @@
-package com.example.gorodbezproblem
+package com.example.gorodbezproblem.views.problems
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -16,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 
 @Composable
-fun TaskDetailsScreen(navController: NavHostController) {
+fun ProblemView(navController: NavHostController) {
     // Извлекаем taskId из предыдущего экрана
     val previousBackStackEntry = navController.previousBackStackEntry
     val taskId = previousBackStackEntry?.arguments?.getString("taskId") ?: "Неизвестная заявка"
