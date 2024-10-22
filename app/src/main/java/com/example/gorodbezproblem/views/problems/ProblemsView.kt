@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.gorodbezproblem.models.Problem
 
 @Composable
 fun TasksScreen(navController: NavHostController) {
@@ -29,8 +30,8 @@ fun TasksScreen(navController: NavHostController) {
 
         // Пример списка заявок (можно подключить реальные данные)
         val tasks = listOf(
-            Task("Поломанный светофор", "Улица Пушкина, дом Колотушкина", "В работе"),
-            Task("Неубранная улица", "Проспект Ленина, 23", "В работе")
+            Problem("Поломанный светофор", "Улица Пушкина, дом Колотушкина", "В работе"),
+            Problem("Неубранная улица", "Проспект Ленина, 23", "В работе")
         )
 
         // Список заявок
@@ -47,7 +48,7 @@ fun TasksScreen(navController: NavHostController) {
 
 
 @Composable
-fun TaskItem(task: Task, onClick: () -> Unit) {
+fun TaskItem(task: Problem, onClick: () -> Unit) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -82,4 +83,3 @@ fun TaskItem(task: Task, onClick: () -> Unit) {
     }
 }
 
-data class Task(val title: String, val address: String, val status: String)

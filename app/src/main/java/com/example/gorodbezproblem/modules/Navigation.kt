@@ -11,7 +11,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
-import com.example.gorodbezproblem.views.problems.TasksScreen
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -30,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.unit.dp
+import com.example.gorodbezproblem.models.api.ProblemService
 import com.example.gorodbezproblem.views.profile.ProfileScreen
 import com.example.gorodbezproblem.views.problems.ProblemView
 import com.example.gorodbezproblem.views.problems.CreateProblemView
@@ -114,7 +114,7 @@ fun BottomNavigationBar(navController: NavHostController) {
 fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(navController, startDestination = NavigationItem.Home.route, modifier = modifier) {
         composable(NavigationItem.Home.route) { HomeScreen() }
-        composable(NavigationItem.Tasks.route) { TasksScreen(navController) }
+        composable(NavigationItem.Tasks.route) { ProblemView(navController) }
         composable(NavigationItem.Profile.route) { ProfileScreen() }
         composable("report_issue") { CreateProblemView(navController) }
         composable("task_details") { ProblemView(navController) }
