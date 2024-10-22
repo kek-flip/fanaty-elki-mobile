@@ -10,6 +10,10 @@ class APIRepository {
         return problemService.getProblems()
     }
 
+    suspend fun getProblem(problemId: Int): Problem {
+        return problemService.getProblem(problemId)
+    }
+
     suspend fun createProblem(problem: Problem) {
         return problemService.createProblem(problem)
     }
