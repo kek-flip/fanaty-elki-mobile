@@ -9,4 +9,8 @@ class APIRepository {
     suspend fun getProblems(): List<Problem> {
         return problemService.getProblems()
     }
+
+    suspend fun createProblem(problem: Problem) {
+        return problemService.createProblem(problem)
+    }
 }

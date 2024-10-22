@@ -1,4 +1,4 @@
-package com.example.gorodbezproblem.views.problems
+package com.example.gorodbezproblem.views.problems.createproblem
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -8,11 +8,13 @@ import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.gorodbezproblem.ui.components.Address
 import com.example.gorodbezproblem.ui.components.TitledTextField
@@ -20,7 +22,16 @@ import com.example.gorodbezproblem.ui.theme.Colors
 import com.example.gorodbezproblem.ui.theme.UIConstants
 
 @Composable
-fun CreateProblemView(navController: NavHostController) {
+fun CreateProblemView(
+    navController: NavHostController,
+    viewModel: CreateProblemViewModel = viewModel()
+) {
+    LaunchedEffect(viewModel.isCreated) {
+        if (viewModel.isCreated) {
+            navController.popBackStack()
+            // Нужно добавить показ сообщения об успехе
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -53,7 +64,7 @@ fun CreateProblemView(navController: NavHostController) {
             TitledTextField(
                 title = "Описание",
                 value = "",
-                onValueChange = {},
+                onValueChange = { title -> viewModel.onProblemTitleChange(title) },
                 placeholder = "Введите краткое название проблемы",
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -62,7 +73,7 @@ fun CreateProblemView(navController: NavHostController) {
             TitledTextField(
                 title = "Расскажите подробнее",
                 value = "",
-                onValueChange = {},
+                onValueChange = { desc -> viewModel.onProblemDescriptionChange(desc) },
                 placeholder = "Введите подробности проблемы",
                 modifier = Modifier.fillMaxWidth(),
                 textFieldModifier = Modifier.height(120.dp)
@@ -102,9 +113,11 @@ fun CreateProblemView(navController: NavHostController) {
 
         // Кнопка "Отправить"
         Button(
-            onClick = { /* Логика отправки */ },
+            onClick = { viewModel.onSubmitClick() },
             colors = ButtonDefaults.buttonColors(containerColor = Colors.YellowGreen),
-            modifier = Modifier.fillMaxWidth().height(55.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(55.dp),
             shape = RoundedCornerShape(UIConstants.Round),
         ) {
             Text(
