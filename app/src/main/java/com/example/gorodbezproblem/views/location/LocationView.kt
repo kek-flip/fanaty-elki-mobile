@@ -1,6 +1,7 @@
 package com.example.gorodbezproblem.views.location
 
 import MyMapView
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -11,44 +12,44 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.LocationOn
+import com.example.gorodbezproblem.ui.theme.Colors
 
 @Composable
 fun LocationScreen(navController: NavHostController) {
-    Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
-        MyMapView()
-    }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        // Блок "Место" с иконкой и текстом
-        Spacer(modifier = Modifier.height(32.dp))
+    // Карта будет на заднем плане
+    Box(modifier = Modifier.fillMaxSize()) {
+        MyMapView() // Здесь отображается карта
 
-        Text(
-            text = "Место",
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(bottom = 16.dp)
+        // Блок с текстом и кнопкой внизу экрана
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter) // Выравнивание по нижней части экрана
+                .background(Color.White) // Белый фон для блока
+                .padding(16.dp)
         ) {
-            Icon(imageVector = Icons.Outlined.LocationOn, contentDescription = "Location", tint = Color.Black)
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(text = "Улица Пушкина, дом Колотушкина", style = MaterialTheme.typography.bodyLarge)
-        }
+            // Блок "Место" с иконкой и текстом
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(bottom = 16.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.LocationOn,
+                    contentDescription = "Location",
+                    tint = Color.Black
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(text = "Улица Пушкина, дом Колотушкина", style = MaterialTheme.typography.bodyLarge)
+            }
 
-        Spacer(modifier = Modifier.weight(1f)) // Для того, чтобы кнопка была внизу
-
-        // Кнопка "Готово"
-        Button(
-            onClick = { navController.popBackStack() }, // Возвращаемся назад
-            colors = ButtonDefaults.buttonColors(containerColor = Color.Green),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(text = "Готово", color = Color.White)
+            // Кнопка "Готово"
+            Button(
+                onClick = { navController.popBackStack() }, // Возвращаемся назад
+                colors = ButtonDefaults.buttonColors(containerColor = Colors.YellowGreen),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = "Готово", color = Color.White)
+            }
         }
     }
 }
