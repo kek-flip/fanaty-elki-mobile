@@ -32,8 +32,8 @@ import androidx.compose.ui.unit.dp
 import com.example.gorodbezproblem.ui.theme.Colors
 import com.example.gorodbezproblem.views.profile.ProfileScreen
 import com.example.gorodbezproblem.views.problems.ProblemView
-import com.example.gorodbezproblem.views.problems.CreateProblemView
 import com.example.gorodbezproblem.views.location.LocationScreen
+import com.example.gorodbezproblem.views.problems.createproblem.CreateProblemView
 
 
 @Composable

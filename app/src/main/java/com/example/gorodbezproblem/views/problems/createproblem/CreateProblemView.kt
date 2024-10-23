@@ -9,6 +9,10 @@ import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -26,6 +30,10 @@ fun CreateProblemView(
     navController: NavHostController,
     viewModel: CreateProblemViewModel = viewModel()
 ) {
+    // Добавляем переменные состояния для хранения текста
+    var title by remember { mutableStateOf("") }
+    var description by remember { mutableStateOf("") }
+
     LaunchedEffect(viewModel.isCreated) {
         if (viewModel.isCreated) {
             navController.popBackStack()
@@ -61,10 +69,14 @@ fun CreateProblemView(
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
 
+            // Поле "Описание"
             TitledTextField(
                 title = "Описание",
-                value = "",
-                onValueChange = { title -> viewModel.onProblemTitleChange(title) },
+                value = title,  // Используем переменную состояния
+                onValueChange = { newTitle ->
+                    title = newTitle  // Обновляем состояние
+                    viewModel.onProblemTitleChange(newTitle)  // Передаем значение во viewModel
+                },
                 placeholder = "Введите краткое название проблемы",
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -72,23 +84,25 @@ fun CreateProblemView(
             // Поле "Расскажите подробнее"
             TitledTextField(
                 title = "Расскажите подробнее",
-                value = "",
-                onValueChange = { desc -> viewModel.onProblemDescriptionChange(desc) },
+                value = description,  // Используем переменную состояния
+                onValueChange = { newDescription ->
+                    description = newDescription  // Обновляем состояние
+                    viewModel.onProblemDescriptionChange(newDescription)  // Передаем значение во viewModel
+                },
                 placeholder = "Введите подробности проблемы",
                 modifier = Modifier.fillMaxWidth(),
                 textFieldModifier = Modifier.height(120.dp)
             )
 
             // Блок "Фото"
-            // TODO: Тут нужна логика похода в галеру, Гоша тут надо тащить
+            // TODO: Тут нужна логика похода в галерею
             Column(
                 verticalArrangement = Arrangement.spacedBy(15.dp),
             ) {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(2.dp),
                     verticalAlignment = Alignment.CenterVertically
-                )
-                {
+                ) {
                     Text(text = "Фото", fontSize = UIConstants.FontSize)
                     Icon(
                         imageVector = Icons.Outlined.Add,
