@@ -54,6 +54,7 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
@@ -75,7 +76,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.material3)
 
-    implementation("com.yandex.android:maps.mobile:4.8.0-lite")
-    implementation("com.android.volley:volley:1.2.1")
-    implementation("com.beust:klaxon:5.5")
+    implementation(libs.maps.mobile)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
 }

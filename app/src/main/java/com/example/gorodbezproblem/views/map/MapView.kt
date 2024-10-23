@@ -42,6 +42,3 @@ fun MyMapView() {
         modifier = Modifier.fillMaxSize()
     )
 }
-
-
-

@@ -27,7 +27,6 @@ import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.Person
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.unit.dp
 import com.example.gorodbezproblem.ui.theme.Colors
@@ -130,9 +129,6 @@ fun BottomNavigationBar(navController: NavHostController) {
         }
     }
 }
-
-
-
 
 @Composable
 fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifier) {
