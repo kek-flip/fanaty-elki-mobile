@@ -13,11 +13,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Red
-import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.gorodbezproblem.ui.theme.Colors
 
 @Composable
 fun ProfileScreen() {
@@ -36,7 +36,7 @@ fun ProfileScreen() {
         Box(
             modifier = Modifier
                 .size(100.dp)
-                .border(2.dp, Green, CircleShape)
+                .border(2.dp, Colors.YellowGreen, CircleShape)
                 .padding(16.dp),
             contentAlignment = Alignment.Center
         ) {

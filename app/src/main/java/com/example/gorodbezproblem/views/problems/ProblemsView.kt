@@ -30,6 +30,7 @@ fun TasksScreen(navController: NavHostController) {
 
         // Пример списка заявок (можно подключить реальные данные)
         val tasks = listOf(
+
             Problem("Поломанный светофор", "Улица Пушкина, дом Колотушкина", "В работе"),
             Problem("Неубранная улица", "Проспект Ленина, 23", "В работе")
         )
@@ -82,4 +83,3 @@ fun TaskItem(task: Problem, onClick: () -> Unit) {
         }
     }
 }
-

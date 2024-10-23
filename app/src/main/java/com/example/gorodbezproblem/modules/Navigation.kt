@@ -1,6 +1,6 @@
 package com.example.gorodbezproblem.modules
 
-import MyXMLLayout
+import MyMapView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
+import com.example.gorodbezproblem.views.problems.TasksScreen
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -26,18 +27,19 @@ import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.Person
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.unit.dp
+import com.example.gorodbezproblem.ui.theme.Colors
 import com.example.gorodbezproblem.views.profile.ProfileScreen
 import com.example.gorodbezproblem.views.problems.ProblemView
-import com.example.gorodbezproblem.views.problems.createproblem.CreateProblemView
+import com.example.gorodbezproblem.views.problems.CreateProblemView
 import com.example.gorodbezproblem.views.location.LocationScreen
 
 
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
+
     Scaffold(
         bottomBar = { BottomNavigationBar(navController) },
         floatingActionButton = {
@@ -45,7 +47,7 @@ fun MainScreen() {
                 FloatingActionButton(
                     onClick = { navController.navigate("report_issue") },
                     shape = CircleShape,
-                    containerColor = Color.Green,
+                    containerColor = Colors.YellowGreen,
                     contentColor = Color.White
                 ) {
                     Icon(Icons.Outlined.Add, contentDescription = "Add")
@@ -53,11 +55,15 @@ fun MainScreen() {
             }
         }
     ) { innerPadding ->
-        Column(modifier = Modifier.padding(innerPadding)) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)  // Отступ для учёта навигационной панели
+        ) {
             NavigationHost(
-                navController,
-                Modifier.weight(1f)
-            ) // Используем weight для правильного размещения
+                navController = navController,
+                modifier = Modifier.weight(1f)
+            )
         }
     }
 }
@@ -69,19 +75,32 @@ fun BottomNavigationBar(navController: NavHostController) {
         NavigationItem.Tasks,
         NavigationItem.Profile
     )
+
     BottomNavigation(
         backgroundColor = White // Белый фон для панели
     ) {
         val currentRoute = currentRoute(navController)
             ?: NavigationItem.Home.route // Подсвечиваем Home при запуске
+
         items.forEach { item ->
+            // Проверяем текущий маршрут на экране
+            val isHomeScreen = currentRoute == NavigationItem.Home.route ||
+                    currentRoute == "location_screen" ||
+                    currentRoute == "report_issue"
+            val isTasksScreen = currentRoute == "task_details"
+
             BottomNavigationItem(
                 icon = {
                     Box(
                         modifier = Modifier
                             .size(48.dp) // Размер контейнера
                             .background(
-                                color = if (currentRoute == item.route) Green else Color.Transparent, // Подсветка для активной иконки
+                                color = when {
+                                    item.route == NavigationItem.Home.route && isHomeScreen -> Colors.YellowGreen
+                                    item.route == NavigationItem.Tasks.route && isTasksScreen -> Colors.YellowGreen
+                                    item.route == currentRoute -> Colors.YellowGreen
+                                    else -> Color.Transparent // Подсветка для активной иконки
+                                },
                                 shape = RoundedCornerShape(12.dp) // Скругленные углы
                             ),
                         contentAlignment = androidx.compose.ui.Alignment.Center
@@ -93,7 +112,9 @@ fun BottomNavigationBar(navController: NavHostController) {
                         )
                     }
                 },
-                selected = currentRoute == item.route,
+                selected = (item.route == NavigationItem.Home.route && isHomeScreen) ||
+                        (item.route == NavigationItem.Tasks.route && isTasksScreen) ||
+                        item.route == currentRoute,
                 onClick = {
                     if (currentRoute != item.route) {
                         navController.navigate(item.route) {
@@ -113,7 +134,7 @@ fun BottomNavigationBar(navController: NavHostController) {
 fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(navController, startDestination = NavigationItem.Home.route, modifier = modifier) {
         composable(NavigationItem.Home.route) { HomeScreen() }
-        composable(NavigationItem.Tasks.route) { ProblemView(navController) }
+        composable(NavigationItem.Tasks.route) { TasksScreen(navController) }
         composable(NavigationItem.Profile.route) { ProfileScreen() }
         composable("report_issue") { CreateProblemView(navController) }
         composable("task_details") { ProblemView(navController) }
@@ -124,8 +145,9 @@ fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifi
 
 @Composable
 fun HomeScreen() {
-    Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
-        MyXMLLayout()
+    Box(modifier = Modifier.fillMaxSize()) {
+        // Карта отображается здесь
+        MyMapView()
     }
 }
 

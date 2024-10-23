@@ -1,6 +1,6 @@
 package com.example.gorodbezproblem.views.location
 
-import MyXMLLayout
+import MyMapView
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -15,7 +15,7 @@ import androidx.compose.material.icons.outlined.LocationOn
 @Composable
 fun LocationScreen(navController: NavHostController) {
     Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
-        MyXMLLayout()
+        MyMapView()
     }
     Column(
         modifier = Modifier
