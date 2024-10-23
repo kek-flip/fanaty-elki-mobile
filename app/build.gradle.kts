@@ -3,8 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
 }
 
-
 android {
+
     namespace = "com.example.gorodbezproblem"
     compileSdk = 34
 
