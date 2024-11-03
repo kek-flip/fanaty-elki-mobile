@@ -13,6 +13,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.gorodbezproblem.ui.theme.Colors
+import com.example.gorodbezproblem.ui.theme.UIConstants
 
 class Status {
     companion object {
@@ -32,30 +34,30 @@ fun ProblemStatus(status: String) {
                 Icon(
                     imageVector = Icons.Outlined.Refresh,
                     contentDescription = "Status",
-                    tint = Color.Black
+                    tint = Colors.Yellow
                 )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "Ожидание", style = MaterialTheme.typography.bodySmall)
+                Spacer(modifier = Modifier.width(5.dp))
+                Text(text = "Ожидание", fontSize = UIConstants.FontSize)
             }
 
             Status.IN_PROGRESS -> {
                 Icon(
                     imageVector = Icons.Outlined.Refresh,
                     contentDescription = "Status",
-                    tint = Color.Black
+                    tint = Colors.Yellow
                 )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "В работе", style = MaterialTheme.typography.bodySmall)
+                Spacer(modifier = Modifier.width(5.dp))
+                Text(text = "В работе", fontSize = UIConstants.FontSize)
             }
 
             Status.DONE -> {
                 Icon(
                     imageVector = Icons.Outlined.Refresh,
                     contentDescription = "Status",
-                    tint = Color.Black
+                    tint = Colors.Yellow
                 )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "Проблема устранена", style = MaterialTheme.typography.bodySmall)
+                Spacer(modifier = Modifier.width(5.dp))
+                Text(text = "Проблема устранена", fontSize = UIConstants.FontSize)
             }
 
             else -> TODO()

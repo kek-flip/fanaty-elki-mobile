@@ -44,7 +44,7 @@ fun CreateProblemView(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(UIConstants.Padding)
+            .padding(UIConstants.SidesPadding)
     ) {
         // Кнопка назад
         Icon(
