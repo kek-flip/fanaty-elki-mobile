@@ -29,7 +29,6 @@ fun ProblemItem(problem: Problem, onClick: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onClick() }
-            .padding(10.dp)
             .shadow(2.dp, RoundedCornerShape(UIConstants.Round))
         ,
         shape = RoundedCornerShape(UIConstants.Round),
