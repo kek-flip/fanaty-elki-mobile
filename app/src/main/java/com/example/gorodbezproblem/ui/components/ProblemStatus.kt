@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -42,9 +44,9 @@ fun ProblemStatus(status: String) {
 
             Status.IN_PROGRESS -> {
                 Icon(
-                    imageVector = Icons.Outlined.Refresh,
+                    imageVector = Icons.Filled.Settings,
                     contentDescription = "Status",
-                    tint = Colors.Yellow
+                    tint = Colors.Blue
                 )
                 Spacer(modifier = Modifier.width(5.dp))
                 Text(text = "В работе", fontSize = UIConstants.FontSize)
@@ -52,9 +54,9 @@ fun ProblemStatus(status: String) {
 
             Status.DONE -> {
                 Icon(
-                    imageVector = Icons.Outlined.Refresh,
+                    imageVector = Icons.Outlined.Check,
                     contentDescription = "Status",
-                    tint = Colors.Yellow
+                    tint = Colors.YellowGreen
                 )
                 Spacer(modifier = Modifier.width(5.dp))
                 Text(text = "Проблема устранена", fontSize = UIConstants.FontSize)
