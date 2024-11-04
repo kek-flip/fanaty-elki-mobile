@@ -13,6 +13,7 @@ class Colors {
         val White = Color(0xFFFFFFFF)
         val Yellow = Color(0xFFE5DE4B)
         val Red = Color(0xFFE5624B)
+        var Blue = Color(0xFF5BBCB5)
     }
 }
 

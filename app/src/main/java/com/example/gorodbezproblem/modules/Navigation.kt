@@ -11,7 +11,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
-import com.example.gorodbezproblem.views.problems.TasksScreen
+import com.example.gorodbezproblem.views.problems.myproblems.TasksScreen
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

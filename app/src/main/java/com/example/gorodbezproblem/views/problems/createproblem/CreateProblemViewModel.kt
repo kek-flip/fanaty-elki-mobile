@@ -16,11 +16,19 @@ class CreateProblemViewModel : ViewModel() {
     var isError by mutableStateOf(false)
 
     fun onProblemTitleChange(title: String) {
-        problem = Problem(title, problem.address, problem.status)
+        problem = Problem(
+            title = title,
+            address = problem.address,
+            status = problem.status
+        )
     }
 
     fun onProblemDescriptionChange(desc: String) {
-        problem = Problem(problem.title, desc, problem.status)
+        problem = Problem(
+            title = problem.title,
+            description = desc,
+            status = problem.status
+        )
     }
 
     fun onSubmitClick() {
@@ -28,6 +36,7 @@ class CreateProblemViewModel : ViewModel() {
             try {
                 repository.createProblem(problem)
                 isCreated = true
+                isError = false
             } catch (_: Error) {
                 isError = true
             }
