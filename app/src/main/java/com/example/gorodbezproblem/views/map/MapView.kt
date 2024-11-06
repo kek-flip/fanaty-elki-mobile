@@ -3,6 +3,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -15,18 +16,20 @@ import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.map.IconStyle
 import com.yandex.mapkit.mapview.MapView
 import com.yandex.runtime.image.ImageProvider
+import androidx.compose.runtime.remember
 
 @Composable
-fun MyMapView(
-    viewModel: MapViewModel = viewModel()
-) {
+fun MyMapView() {
+    val context = LocalContext.current
+    // Получаем MapViewModel с помощью viewModel() без необходимости передавать контекст
+    val mapViewModel: MapViewModel = viewModel()
+
     LaunchedEffect(Unit) {
-        viewModel.loadProblems()
+        mapViewModel.loadProblems()
     }
 
     AndroidView(
         factory = { context ->
-            // Создаем MapView напрямую, без использования XML
             val mapView = MapView(context)
 
             // Устанавливаем камеру на Москву
@@ -39,10 +42,9 @@ fun MyMapView(
                 null
             )
 
-            // Добавляем метку с иконкой на карте и уменьшаем размер иконки
             val imageProvider = ImageProvider.fromResource(context, R.drawable.ic_pin)
 
-            viewModel.problems.forEach { problem: Problem ->
+            mapViewModel.problems.forEach { problem: Problem ->
                 mapView.map.mapObjects.addPlacemark(
                     Point(
                         problem.lat.toDouble(),
@@ -50,13 +52,11 @@ fun MyMapView(
                     )
                 ).apply {
                     setIcon(imageProvider, IconStyle().apply {
-                        scale = 0.5f // Масштаб иконки, 0.5f уменьшит ее в 2 раза
+                        scale = 0.5f
                     })
                 }
             }
 
-
-            // Возвращаем созданный mapView
             mapView
         },
         modifier = Modifier.fillMaxSize()

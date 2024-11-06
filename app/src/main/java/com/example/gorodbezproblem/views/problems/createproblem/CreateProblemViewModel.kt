@@ -1,5 +1,6 @@
 package com.example.gorodbezproblem.views.problems.createproblem
 
+import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -9,8 +10,9 @@ import com.example.gorodbezproblem.models.Problem
 import com.example.gorodbezproblem.models.repository.APIRepository
 import kotlinx.coroutines.launch
 
-class CreateProblemViewModel : ViewModel() {
-    private val repository = APIRepository()
+class CreateProblemViewModel(context: Context) : ViewModel() {  // Принимаем context в конструкторе
+    private val repository = APIRepository(context)             // Передаем context в APIRepository
+
     private var problem by mutableStateOf(Problem())
     var isCreated by mutableStateOf(false)
     var isError by mutableStateOf(false)

@@ -6,7 +6,14 @@ import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.gorodbezproblem.modules.MainScreen
+import com.example.gorodbezproblem.views.auth.LoginScreen
+import com.example.gorodbezproblem.views.registration.PasswordScreen
+import com.example.gorodbezproblem.views.registration.RegisterScreen
 import com.yandex.mapkit.MapKitFactory
 
 class MainActivity : ComponentActivity() {
@@ -18,7 +25,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MaterialTheme {
-                MainScreen()  // Только логика основного экрана
+                AppNavigation()  // Навигация приложения
             }
         }
     }
@@ -34,11 +41,31 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@Composable
+fun AppNavigation() {
+    val navController = rememberNavController()
+
+    NavHost(navController = navController, startDestination = "login") {
+        composable("login") {
+            LoginScreen(navController)
+        }
+        composable("register") {
+            RegisterScreen(navController)
+        }
+        composable("password") {
+            PasswordScreen(navController)
+        }
+        composable("main") {
+            MainScreen() // Основной экран приложения
+        }
+    }
+}
+
+
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     MaterialTheme {
-        MainScreen()
+        AppNavigation()
     }
 }
-
