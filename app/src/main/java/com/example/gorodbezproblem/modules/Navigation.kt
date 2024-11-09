@@ -33,7 +33,8 @@ import com.example.gorodbezproblem.ui.theme.Colors
 import com.example.gorodbezproblem.views.profile.ProfileScreen
 import com.example.gorodbezproblem.views.problems.ProblemView
 import com.example.gorodbezproblem.views.location.LocationScreen
-import com.example.gorodbezproblem.views.problems.createproblem.CreateProblemView
+import com.example.gorodbezproblem.views.problems.createproblem.problem.CreateProblemView
+import com.example.gorodbezproblem.views.problems.problemai.ProblemAIView
 
 
 @Composable
@@ -139,6 +140,7 @@ fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifi
         composable("report_issue") { CreateProblemView(navController) }
         composable("task_details") { ProblemView(navController) }
         composable("location_screen") { LocationScreen(navController) }
+        composable("ai_task"){ ProblemAIView(navController) }
     }
 }
 

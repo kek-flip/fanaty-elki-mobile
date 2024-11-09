@@ -1,4 +1,4 @@
-package com.example.gorodbezproblem.views.problems.createproblem
+package com.example.gorodbezproblem.views.problems.createproblem.problem
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -27,6 +27,7 @@ import com.example.gorodbezproblem.ui.components.Address
 import com.example.gorodbezproblem.ui.components.TitledTextField
 import com.example.gorodbezproblem.ui.theme.Colors
 import com.example.gorodbezproblem.ui.theme.UIConstants
+import com.example.gorodbezproblem.views.problems.createproblem.CreateProblemViewModel
 
 @Composable
 fun CreateProblemView(
@@ -78,7 +79,11 @@ fun CreateProblemView(
                 Image(
                     painter = painterResource(id = R.drawable.ic_ai_icon),
                     contentDescription = "Заполнить проблему с помощью ИИ",
-                    modifier = Modifier.size(30.dp)
+                    modifier = Modifier
+                        .size(30.dp)
+                        .clickable {
+                            navController.navigate("ai_task")
+                        }
                 )
             }
 
