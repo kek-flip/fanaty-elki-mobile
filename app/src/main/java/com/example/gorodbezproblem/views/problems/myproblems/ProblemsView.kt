@@ -1,22 +1,18 @@
 package com.example.gorodbezproblem.views.problems.myproblems
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.magnifier
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Refresh
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.gorodbezproblem.models.Problem
 import com.example.gorodbezproblem.ui.components.ProblemItem
 import com.example.gorodbezproblem.ui.theme.UIConstants
 
@@ -28,6 +24,8 @@ fun TasksScreen(
     LaunchedEffect(Unit) {
         viewModel.loadProblems()
     }
+
+    val scrollState = rememberScrollState()
 
     Column(
         modifier = Modifier
@@ -46,7 +44,8 @@ fun TasksScreen(
         // Список заявок
         Column(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .verticalScroll(scrollState),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             viewModel.problems.forEach { task ->
