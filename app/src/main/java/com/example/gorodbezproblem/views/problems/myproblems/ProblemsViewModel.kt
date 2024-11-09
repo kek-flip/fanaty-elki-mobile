@@ -1,16 +1,18 @@
 package com.example.gorodbezproblem.views.problems.myproblems
 
+import android.app.Application
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gorodbezproblem.models.Problem
 import com.example.gorodbezproblem.models.repository.APIRepository
 import kotlinx.coroutines.launch
 
-class ProblemsViewModel : ViewModel() {
-    private val repository = APIRepository()
+class ProblemsViewModel(application: Application) : AndroidViewModel(application) {
+    private val repository = APIRepository(application.applicationContext)
 
     var problems: List<Problem> by mutableStateOf(arrayListOf())
     var isLoaded by  mutableStateOf(false)
@@ -27,4 +29,5 @@ class ProblemsViewModel : ViewModel() {
             }
         }
     }
+
 }

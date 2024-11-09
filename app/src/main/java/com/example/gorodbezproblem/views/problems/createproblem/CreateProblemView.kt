@@ -1,5 +1,9 @@
 package com.example.gorodbezproblem.views.problems.createproblem
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,6 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
 import com.example.gorodbezproblem.ui.components.Address
 import com.example.gorodbezproblem.ui.components.TitledTextField
 import com.example.gorodbezproblem.ui.theme.Colors
@@ -72,10 +78,10 @@ fun CreateProblemView(
             // Поле "Описание"
             TitledTextField(
                 title = "Описание",
-                value = title,  // Используем переменную состояния
+                value = title,
                 onValueChange = { newTitle ->
-                    title = newTitle  // Обновляем состояние
-                    viewModel.onProblemTitleChange(newTitle)  // Передаем значение во viewModel
+                    title = newTitle
+                    viewModel.onProblemTitleChange(newTitle)
                 },
                 placeholder = "Введите краткое название проблемы",
                 modifier = Modifier.fillMaxWidth(),
@@ -84,10 +90,10 @@ fun CreateProblemView(
             // Поле "Расскажите подробнее"
             TitledTextField(
                 title = "Расскажите подробнее",
-                value = description,  // Используем переменную состояния
+                value = description,
                 onValueChange = { newDescription ->
-                    description = newDescription  // Обновляем состояние
-                    viewModel.onProblemDescriptionChange(newDescription)  // Передаем значение во viewModel
+                    description = newDescription
+                    viewModel.onProblemDescriptionChange(newDescription)
                 },
                 placeholder = "Введите подробности проблемы",
                 modifier = Modifier.fillMaxWidth(),
@@ -95,13 +101,19 @@ fun CreateProblemView(
             )
 
             // Блок "Фото"
-            // TODO: Тут нужна логика похода в галерею
+            val launcher = rememberLauncherForActivityResult(
+                contract = ActivityResultContracts.GetContent()
+            ) { uri: Uri? ->
+                uri?.let { viewModel.addPhotoUri(it) }
+            }
+
             Column(
                 verticalArrangement = Arrangement.spacedBy(15.dp),
             ) {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(2.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.clickable { launcher.launch("image/*") }
                 ) {
                     Text(text = "Фото", fontSize = UIConstants.FontSize)
                     Icon(
@@ -110,11 +122,30 @@ fun CreateProblemView(
                         tint = Colors.Black
                     )
                 }
-                Text(
-                    text = "Добавьте фото",
-                    fontSize = UIConstants.FontSize,
-                    color = Colors.HalfBlack
-                )
+                // Показать текст "Добавьте фото" только если список фото пуст
+                if (viewModel.photoUris.isEmpty()) {
+                    Text(
+                        text = "Добавьте фото",
+                        fontSize = UIConstants.FontSize,
+                        color = Colors.HalfBlack
+                    )
+                }
+            }
+
+            // Показать изображения, если они есть
+            if (viewModel.photoUris.isNotEmpty()) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    viewModel.photoUris.forEach { uri ->
+                        Image(
+                            painter = rememberAsyncImagePainter(model = uri),
+                            contentDescription = "Фото",
+                            modifier = Modifier.size(80.dp).padding(2.dp)
+                        )
+                    }
+                }
             }
 
             // Блок "Место" с переходом на экран места
@@ -127,7 +158,10 @@ fun CreateProblemView(
 
         // Кнопка "Отправить"
         Button(
-            onClick = { viewModel.onSubmitClick() },
+            onClick = {
+                viewModel.onSubmitClick()
+                navController.popBackStack()
+            },
             colors = ButtonDefaults.buttonColors(containerColor = Colors.YellowGreen),
             modifier = Modifier
                 .fillMaxWidth()
@@ -143,5 +177,3 @@ fun CreateProblemView(
         }
     }
 }
-
-

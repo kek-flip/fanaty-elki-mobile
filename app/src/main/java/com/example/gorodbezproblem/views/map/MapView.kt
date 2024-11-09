@@ -43,17 +43,23 @@ fun MyMapView(
             val imageProvider = ImageProvider.fromResource(context, R.drawable.ic_pin)
 
             viewModel.problems.forEach { problem: Problem ->
-                mapView.map.mapObjects.addPlacemark(
-                    Point(
-                        problem.lat.toDouble(),
-                        problem.long.toDouble()
-                    )
-                ).apply {
-                    setIcon(imageProvider, IconStyle().apply {
-                        scale = 0.5f // Масштаб иконки, 0.5f уменьшит ее в 2 раза
-                    })
+                val lat = problem.lat.toDoubleOrNull()
+                val long = problem.long.toDoubleOrNull()
+
+                if (lat != null && long != null) {
+                    mapView.map.mapObjects.addPlacemark(
+                        Point(lat, long)
+                    ).apply {
+                        setIcon(imageProvider, IconStyle().apply {
+                            scale = 0.5f // Масштаб иконки
+                        })
+                    }
+                } else {
+                    // Логирование или обработка ошибки, если преобразование не удалось
+                    println("Ошибка преобразования координат: ${problem.lat}, ${problem.long}")
                 }
             }
+
 
 
             // Возвращаем созданный mapView
