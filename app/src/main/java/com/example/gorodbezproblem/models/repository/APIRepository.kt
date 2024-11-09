@@ -30,7 +30,7 @@ class APIRepository(private val context: Context) {
         return problemService.createProblem(problem)
     }
 
-    // Функция для подготовки MultipartBody.Part из URI
+    // Функция для подготовки MultipartBody.Part из URI.
     private fun getMultipartFromUri(uri: Uri, paramName: String): MultipartBody.Part {
         val contentResolver = context.contentResolver
         val inputStream = contentResolver.openInputStream(uri)
