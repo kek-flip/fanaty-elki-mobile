@@ -25,10 +25,18 @@ fun PasswordScreen(navController: NavController) {
     var confirmPassword by remember { mutableStateOf("") }
 
     val context = LocalContext.current
-
     val registerViewModel = remember { RegisterViewModel(context) }
     val isLoading = registerViewModel.isLoading
     val isError = registerViewModel.isError
+
+    // Следим за изменениями isError и isLoading для навигации после успешной регистрации
+    LaunchedEffect(isError, isLoading) {
+        if (!isError && !isLoading) {
+            navController.navigate("main") {
+                popUpTo("login") { inclusive = true }
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -40,27 +48,12 @@ fun PasswordScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth()
         ) {
-            // Заголовок UrbanCare
             Row(
                 modifier = Modifier.padding(top = 32.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = "Urban",
-                    style = TextStyle(
-                        fontSize = 32.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black
-                    )
-                )
-                Text(
-                    text = "Care",
-                    style = TextStyle(
-                        fontSize = 32.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF4CAF50) // Зеленый цвет
-                    )
-                )
+                Text("Urban", style = TextStyle(fontSize = 32.sp, fontWeight = FontWeight.Bold, color = Color.Black))
+                Text("Care", style = TextStyle(fontSize = 32.sp, fontWeight = FontWeight.Bold, color = Color(0xFF4CAF50)))
             }
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -69,7 +62,6 @@ fun PasswordScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Поле Пароль
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
@@ -81,7 +73,6 @@ fun PasswordScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Поле Повторите пароль
             OutlinedTextField(
                 value = confirmPassword,
                 onValueChange = { confirmPassword = it },
@@ -93,26 +84,34 @@ fun PasswordScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Кнопка Зарегистрироваться
             Button(
                 onClick = {
                     registerViewModel.register()
-                    if (!isError) {
-                        navController.navigate("main") {
-                            popUpTo("login") { inclusive = true }
-                        }
-                    }
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp)
             ) {
-                Text("Зарегистрироваться", color = Color.White, fontSize = 16.sp)
+                if (isLoading) {
+                    CircularProgressIndicator(
+                        color = Color.White,
+                        modifier = Modifier.size(24.dp)
+                    )
+                } else {
+                    Text("Зарегистрироваться", color = Color.White, fontSize = 16.sp)
+                }
+            }
+
+            if (isError) {
+                Text(
+                    text = "Ошибка регистрации. Попробуйте снова.",
+                    color = Color.Red,
+                    style = TextStyle(fontSize = 14.sp)
+                )
             }
         }
 
-        // Картинка внизу экрана
         Image(
             painter = painterResource(id = R.drawable.reg_auth_city),
             contentDescription = null,

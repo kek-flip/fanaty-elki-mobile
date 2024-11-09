@@ -71,7 +71,9 @@ class APIRepository(context: Context) {
     suspend fun register(name: String, phoneNumber: String, birthDate: String, gender: String): Boolean {
         return withContext(Dispatchers.IO) {
             val regreg = RegisterRequest(name, phoneNumber, birthDate, gender)
-            System.err.println("ERROR$regreg")
+            // Пример использования логов
+            Log.d("Register", "Attempting registration with data: $name, $phoneNumber, $birthDate")
+
             val response = problemService.createUser(regreg)
             if (response.isSuccessful) {
                 return@withContext true

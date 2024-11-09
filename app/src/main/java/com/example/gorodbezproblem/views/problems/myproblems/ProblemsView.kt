@@ -25,7 +25,7 @@ fun TasksScreen(
     }
 
     // Состояния загрузки и ошибок
-    val isLoading = viewModel.isLoaded
+    val isLoaded = viewModel.isLoaded
     val isError = viewModel.isError
 
     Column(
@@ -42,7 +42,7 @@ fun TasksScreen(
         )
 
         // Проверка состояния загрузки
-        if (isLoading) {
+        if (!isLoaded) {
             CircularProgressIndicator(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
