@@ -53,7 +53,10 @@ class CreateProblemViewModel(application: Application) : AndroidViewModel(applic
     fun onSubmitClick() {
         viewModelScope.launch {
             try {
-                // Отправка изображений на сервер
+                // Отправка основного объекта `Problem` на сервер
+                repository.createProblem(problem)
+
+                // Отправка изображений
                 val uploadResponse = repository.uploadImages(photoUris)
                 if (uploadResponse.isSuccessful) {
                     isCreated = true
@@ -66,4 +69,5 @@ class CreateProblemViewModel(application: Application) : AndroidViewModel(applic
             }
         }
     }
+
 }
