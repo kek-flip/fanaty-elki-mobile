@@ -80,4 +80,5 @@ dependencies {
     implementation(libs.maps.mobile)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+    implementation(libs.converter.scalars)
 }
