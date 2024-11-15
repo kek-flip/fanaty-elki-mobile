@@ -27,7 +27,6 @@ import com.example.gorodbezproblem.ui.components.Address
 import com.example.gorodbezproblem.ui.components.TitledTextField
 import com.example.gorodbezproblem.ui.theme.Colors
 import com.example.gorodbezproblem.ui.theme.UIConstants
-import com.example.gorodbezproblem.views.problems.createproblem.CreateProblemViewModel
 
 @Composable
 fun CreateProblemView(

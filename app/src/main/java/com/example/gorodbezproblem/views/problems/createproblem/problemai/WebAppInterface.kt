@@ -3,7 +3,7 @@ package com.example.gorodbezproblem.views.problems.problemai
 import android.content.Context
 import android.webkit.JavascriptInterface
 import androidx.navigation.NavHostController
-import com.example.gorodbezproblem.views.problems.createproblem.CreateProblemViewModel
+import com.example.gorodbezproblem.views.problems.createproblem.problem.CreateProblemViewModel
 
 class WebAppInterface(
     private val context: Context,
