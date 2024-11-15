@@ -1,5 +1,6 @@
-package com.example.gorodbezproblem.views.problems.createproblem
+package com.example.gorodbezproblem.views.problems.createproblem.problem
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,15 +16,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.gorodbezproblem.R
 import com.example.gorodbezproblem.ui.components.Address
 import com.example.gorodbezproblem.ui.components.TitledTextField
 import com.example.gorodbezproblem.ui.theme.Colors
 import com.example.gorodbezproblem.ui.theme.UIConstants
+import com.example.gorodbezproblem.views.problems.createproblem.CreateProblemViewModel
 
 @Composable
 fun CreateProblemView(
@@ -63,11 +67,26 @@ fun CreateProblemView(
             verticalArrangement = Arrangement.spacedBy(30.dp),
         ) {
             // Заголовок
-            Text(
-                text = "Сообщить о проблеме",
-                fontSize = 24.sp,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(30.dp),
+            ) {
+                Text(
+                    text = "Сообщить о проблеме",
+                    fontSize = 24.sp,
+                )
+
+                Image(
+                    painter = painterResource(id = R.drawable.ic_ai_icon),
+                    contentDescription = "Заполнить проблему с помощью ИИ",
+                    modifier = Modifier
+                        .size(30.dp)
+                        .clickable {
+                            navController.navigate("ai_task")
+                        }
+                )
+            }
+
 
             // Поле "Описание"
             TitledTextField(

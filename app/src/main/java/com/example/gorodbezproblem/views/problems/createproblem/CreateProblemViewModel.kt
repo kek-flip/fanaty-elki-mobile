@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class CreateProblemViewModel : ViewModel() {
     private val repository = APIRepository()
-    private var problem by mutableStateOf(Problem())
+    var problem by mutableStateOf(Problem())
     var isCreated by mutableStateOf(false)
     var isError by mutableStateOf(false)
 
