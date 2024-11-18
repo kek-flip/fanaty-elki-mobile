@@ -4,7 +4,6 @@ import com.example.gorodbezproblem.models.Problem
 import com.example.gorodbezproblem.models.api.RetrofitInstance
 
 
-
 class APIRepository {
     private val problemService = RetrofitInstance.getProblemService
 
@@ -17,6 +16,14 @@ class APIRepository {
     }
 
     suspend fun createProblem(problem: Problem) {
-        return problemService.createProblem(problem)
+        return problemService.createProblem(
+            problem.title,
+            problem.description,
+            problem.specificlocation,
+            problem.category,
+            problem.lat,
+            problem.long,
+            listOf(),
+        )
     }
 }

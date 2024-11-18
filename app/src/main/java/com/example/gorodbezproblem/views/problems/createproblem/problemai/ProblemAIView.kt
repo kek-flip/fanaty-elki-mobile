@@ -9,7 +9,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.compose.ui.Modifier
-import com.example.gorodbezproblem.views.problems.createproblem.CreateProblemViewModel
+import com.example.gorodbezproblem.views.problems.createproblem.problem.CreateProblemViewModel
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable

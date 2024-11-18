@@ -1,4 +1,4 @@
-package com.example.gorodbezproblem.views.problems.createproblem
+package com.example.gorodbezproblem.views.problems.createproblem.problem
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,7 +18,7 @@ class CreateProblemViewModel : ViewModel() {
     fun onProblemTitleChange(title: String) {
         problem = Problem(
             title = title,
-            address = problem.address,
+            specificlocation = problem.specificlocation,
             status = problem.status
         )
     }

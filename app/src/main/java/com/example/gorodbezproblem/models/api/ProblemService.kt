@@ -1,9 +1,12 @@
 package com.example.gorodbezproblem.models.api
 
+import android.media.Image
 import com.example.gorodbezproblem.models.Problem
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Path
 
 data class APIResponse<T, E>(
@@ -17,11 +20,20 @@ data class ProblemsListResponse(
 
 interface ProblemService {
     @GET("/problems")
-    suspend fun getProblems() : APIResponse<ProblemsListResponse, Any>
+    suspend fun getProblems(): APIResponse<ProblemsListResponse, Any>
 
     @GET("/problems/{id}")
     suspend fun getProblem(@Path("id") problemId: Int): Problem
 
+    @Multipart
     @POST("/problems")
-    suspend fun createProblem(@Body problem: Problem)
+    suspend fun createProblem(
+        @Part("title") title: String,
+        @Part("description") description: String,
+        @Part("specificLocation") specificLocation: String,
+        @Part("category") category: String,
+        @Part("lat") lat: String,
+        @Part("long") long: String,
+        @Part("mediaFiles") mediaFiles: @JvmSuppressWildcards List<Image>,
+    )
 }

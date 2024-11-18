@@ -42,7 +42,7 @@ fun ProblemItem(problem: Problem, onClick: () -> Unit) {
             // Левая часть с названием и адресом
             Column() {
                 Text(text = problem.title, fontSize = 20.sp)
-                Text(text = problem.address, fontSize = 12.sp, fontStyle = FontStyle.Italic)
+                Text(text = problem.specificlocation, fontSize = 12.sp, fontStyle = FontStyle.Italic)
             }
 
             // Правая часть с иконкой времени и статусом
