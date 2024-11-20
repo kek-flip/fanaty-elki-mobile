@@ -42,18 +42,15 @@ class CreateProblemViewModel : ViewModel() {
     fun onSubmitClick(context: Context) {
         viewModelScope.launch {
             try {
-                // Преобразование изображений в MultipartBody.Part
                 val mediaParts = selectedImages.map { uri ->
                     repository.createMultipartBodyPart(uri, context)
                 }
 
-                // Отправляем данные и изображения на сервер
                 repository.createProblem(
-                    problem = problem, // Передаем объект Problem с данными
-                    mediaParts = mediaParts // Передаем изображения
+                    problem = problem,
+                    mediaParts = mediaParts
                 )
                 isCreated = true
-                isError = false
             } catch (e: Exception) {
                 isError = true
                 e.printStackTrace()
@@ -61,10 +58,3 @@ class CreateProblemViewModel : ViewModel() {
         }
     }
 }
-
-
-
-
-
-
-

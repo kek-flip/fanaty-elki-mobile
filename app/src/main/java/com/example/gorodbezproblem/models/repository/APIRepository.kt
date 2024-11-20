@@ -14,6 +14,9 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.asRequestBody
 
 
+import okhttp3.RequestBody.Companion.toRequestBody
+
+
 class APIRepository {
     private val problemService = RetrofitInstance.getProblemService
 
@@ -27,17 +30,24 @@ class APIRepository {
 
     // Создание проблемы с передачей заголовка, описания и изображений
     suspend fun createProblem(
-        problem: Problem, // Принимаем объект Problem
+        problem: Problem,
         mediaParts: List<MultipartBody.Part>
     ) {
-        return problemService.createProblem(
-            title = problem.title,
-            description = problem.description,
-            specificLocation = problem.specificlocation,
-            category = problem.category,
-            lat = problem.lat,
-            long = problem.long,
-            mediaFiles = mediaParts // Отправляем MultipartBody.Part
+        val titleBody = problem.title.toRequestBody("text/plain".toMediaTypeOrNull())
+        val descriptionBody = problem.description.toRequestBody("text/plain".toMediaTypeOrNull())
+        val specificLocationBody = problem.specificlocation.toRequestBody("text/plain".toMediaTypeOrNull())
+        val categoryBody = problem.category.toRequestBody("text/plain".toMediaTypeOrNull())
+        val latBody = problem.lat.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val longBody = problem.long.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+
+        problemService.createProblem(
+            title = titleBody,
+            description = descriptionBody,
+            specificLocation = specificLocationBody,
+            category = categoryBody,
+            lat = latBody,
+            long = longBody,
+            mediaFiles = mediaParts
         )
     }
 

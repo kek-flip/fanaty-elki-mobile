@@ -41,11 +41,6 @@ fun CreateProblemView(
     navController: NavHostController,
     viewModel: CreateProblemViewModel = viewModel()
 ) {
-    // Переменные состояния для хранения текста
-    var title by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
-    var specificLocation by remember { mutableStateOf("") }
-
     // Логика выбора изображений
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetMultipleContents(),
@@ -57,11 +52,10 @@ fun CreateProblemView(
     LaunchedEffect(viewModel.isCreated) {
         if (viewModel.isCreated) {
             navController.popBackStack()
-            // Можно добавить показ сообщения об успехе
         }
     }
 
-    val context = LocalContext.current  // Получаем контекст
+    val context = LocalContext.current // Получаем контекст
 
     Column(
         modifier = Modifier
@@ -89,7 +83,6 @@ fun CreateProblemView(
                 modifier = Modifier
                     .size(30.dp)
                     .clickable {
-                        // Навигация на экран ИИ для автоматического заполнения
                         navController.navigate("ai_task")
                     }
             )
@@ -100,8 +93,8 @@ fun CreateProblemView(
         // Поле для ввода названия проблемы
         TitledTextField(
             title = "Название",
-            value = title,
-            onValueChange = { title = it },
+            value = viewModel.problem.title, // Связываем с ViewModel
+            onValueChange = { viewModel.onProblemTitleChange(it) },
             placeholder = "Введите название проблемы"
         )
 
@@ -110,8 +103,8 @@ fun CreateProblemView(
         // Поле для ввода описания проблемы
         TitledTextField(
             title = "Описание",
-            value = description,
-            onValueChange = { description = it },
+            value = viewModel.problem.description, // Связываем с ViewModel
+            onValueChange = { viewModel.onProblemDescriptionChange(it) },
             placeholder = "Введите описание проблемы"
         )
 
@@ -131,7 +124,6 @@ fun CreateProblemView(
                 }
             }
 
-            // Показываем фотографии, если они выбраны
             if (viewModel.selectedImages.isNotEmpty()) {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -154,15 +146,13 @@ fun CreateProblemView(
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Поле для ввода адреса
         TitledTextField(
             title = "Место",
-            value = specificLocation,
-            onValueChange = { specificLocation = it },
+            value = viewModel.problem.specificlocation, // Связываем с ViewModel
+            onValueChange = { viewModel.onSpecificLocationChange(it) },
             placeholder = "Введите адрес места"
         )
-        /*Address(location = "Ваш адрес", onClick = {
-            navController.navigate("location_screen")
-        })*/
 
         Spacer(modifier = Modifier.height(32.dp))
 
@@ -177,6 +167,7 @@ fun CreateProblemView(
         }
     }
 }
+
 
 
 
