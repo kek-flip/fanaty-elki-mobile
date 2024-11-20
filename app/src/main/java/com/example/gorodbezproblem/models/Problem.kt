@@ -7,8 +7,9 @@ data class Problem(
     val specificlocation: String = "",
     val category: String = "cleaning",
     val voteCount: Int = 1,
-    val media: List<String>? = null,
+    val media: List<String> = emptyList(), // Храним ссылки в виде строк
     val status: String = "AWAITING",
     val lat: String = "55.765903",
     val long: String = "37.685013",
 )
+

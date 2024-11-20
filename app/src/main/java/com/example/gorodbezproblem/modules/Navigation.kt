@@ -28,6 +28,7 @@ import androidx.compose.material.icons.outlined.Person
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.gorodbezproblem.ui.theme.Colors
 import com.example.gorodbezproblem.views.profile.ProfileScreen
@@ -140,9 +141,11 @@ fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifi
         composable("report_issue") { CreateProblemView(navController) }
         composable("task_details") { ProblemView(navController) }
         composable("location_screen") { LocationScreen(navController) }
-        composable("ai_task"){ ProblemAIView(navController) }
+        composable("ai_task") { ProblemAIView(navController) }
     }
 }
+
+
 
 
 @Composable

@@ -21,8 +21,13 @@ class WebAppInterface(
     }
 
     @JavascriptInterface
+    fun onSpecificLocationChange(location: String) {
+        viewModel.onSpecificLocationChange(location)
+    }
+
+    @JavascriptInterface
     fun createProblem() {
-        viewModel.onSubmitClick()
+        viewModel.onSubmitClick(context)
         navController.navigate("home")
     }
 }

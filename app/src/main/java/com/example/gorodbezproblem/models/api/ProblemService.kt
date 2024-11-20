@@ -2,6 +2,7 @@ package com.example.gorodbezproblem.models.api
 
 import android.media.Image
 import com.example.gorodbezproblem.models.Problem
+import okhttp3.MultipartBody
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Multipart
@@ -34,6 +35,7 @@ interface ProblemService {
         @Part("category") category: String,
         @Part("lat") lat: String,
         @Part("long") long: String,
-        @Part("mediaFiles") mediaFiles: @JvmSuppressWildcards List<Image>,
+        @Part mediaFiles: List<MultipartBody.Part> // Ждем список MultipartBody.Part
     )
+
 }
