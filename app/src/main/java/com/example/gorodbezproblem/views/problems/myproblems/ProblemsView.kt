@@ -2,6 +2,7 @@ package com.example.gorodbezproblem.views.problems.myproblems
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
@@ -25,14 +26,11 @@ fun TasksScreen(
         viewModel.loadProblems()
     }
 
-    val scrollState = rememberScrollState()
-
     Column(
         modifier = Modifier
             .padding(UIConstants.SidesPadding)
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(25.dp)
-
     ) {
         // Заголовок экрана
         Text(
@@ -42,22 +40,15 @@ fun TasksScreen(
         )
 
         // Список заявок
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .verticalScroll(scrollState),
+        LazyColumn(
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            viewModel.problems.forEach { task ->
+            items(viewModel.problems) { task ->
                 ProblemItem(task, onClick = {
-                    // Сохраняем taskId в аргументах и переходим на экран деталей задачи
-                    navController.currentBackStackEntry?.arguments?.putString(
-                        "taskId",
-                        task.id.toString()
-                    )
-                    navController.navigate("task_details")
+                    navController.navigate("task_details/${task.id}")
                 })
             }
         }
     }
 }
+
