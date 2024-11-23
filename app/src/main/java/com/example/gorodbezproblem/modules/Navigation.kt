@@ -28,9 +28,9 @@ import androidx.compose.material.icons.outlined.Person
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color.Companion.White
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.gorodbezproblem.ui.theme.Colors
+import com.example.gorodbezproblem.views.auth.onboarding.OnboardingView
 import com.example.gorodbezproblem.views.profile.ProfileScreen
 import com.example.gorodbezproblem.views.problems.ProblemView
 import com.example.gorodbezproblem.views.location.LocationScreen
@@ -41,9 +41,14 @@ import com.example.gorodbezproblem.views.problems.problemai.ProblemAIView
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
+    val skipBottomBar = listOf("onboarding")
 
     Scaffold(
-        bottomBar = { BottomNavigationBar(navController) },
+        bottomBar = {
+            if (!skipBottomBar.contains(currentRoute(navController))) BottomNavigationBar(
+                navController
+            )
+        },
         floatingActionButton = {
             if (currentRoute(navController) == NavigationItem.Home.route) {
                 FloatingActionButton(
@@ -134,7 +139,7 @@ fun BottomNavigationBar(navController: NavHostController) {
 
 @Composable
 fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifier) {
-    NavHost(navController, startDestination = NavigationItem.Home.route, modifier = modifier) {
+    NavHost(navController, startDestination = "onboarding", modifier = modifier) {
         composable(NavigationItem.Home.route) { HomeScreen() }
         composable(NavigationItem.Tasks.route) { TasksScreen(navController) }
         composable(NavigationItem.Profile.route) { ProfileScreen() }
@@ -142,10 +147,9 @@ fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifi
         composable("task_details") { ProblemView(navController) }
         composable("location_screen") { LocationScreen(navController) }
         composable("ai_task") { ProblemAIView(navController) }
+        composable("onboarding") { OnboardingView(navController) }
     }
 }
-
-
 
 
 @Composable
