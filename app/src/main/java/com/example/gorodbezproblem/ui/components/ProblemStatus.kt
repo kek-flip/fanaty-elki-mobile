@@ -61,8 +61,6 @@ fun ProblemStatus(status: String) {
                 Spacer(modifier = Modifier.width(5.dp))
                 Text(text = "Проблема устранена", fontSize = UIConstants.FontSize)
             }
-
-            else -> TODO()
         }
     }
 }
