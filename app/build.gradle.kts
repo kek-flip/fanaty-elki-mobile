@@ -81,4 +81,9 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.converter.scalars)
+
+    implementation (libs.androidx.activity.ktx)
+    implementation (libs.androidx.lifecycle.runtime.ktx.v287)
+    implementation(libs.coil.compose)
+
 }

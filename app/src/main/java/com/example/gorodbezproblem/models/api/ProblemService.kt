@@ -2,6 +2,8 @@ package com.example.gorodbezproblem.models.api
 
 import android.media.Image
 import com.example.gorodbezproblem.models.Problem
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Multipart
@@ -28,12 +30,14 @@ interface ProblemService {
     @Multipart
     @POST("/problems")
     suspend fun createProblem(
-        @Part("title") title: String,
-        @Part("description") description: String,
-        @Part("specificLocation") specificLocation: String,
-        @Part("category") category: String,
-        @Part("lat") lat: String,
-        @Part("long") long: String,
-        @Part("mediaFiles") mediaFiles: @JvmSuppressWildcards List<Image>,
+        @Part("title") title: RequestBody,
+        @Part("description") description: RequestBody,
+        @Part("specificLocation") specificLocation: RequestBody,
+        @Part("category") category: RequestBody,
+        @Part("lat") lat: RequestBody,
+        @Part("long") long: RequestBody,
+        @Part mediaFiles: List<MultipartBody.Part>
     )
+
+
 }
