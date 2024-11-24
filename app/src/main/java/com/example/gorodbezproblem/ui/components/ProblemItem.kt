@@ -1,6 +1,5 @@
 package com.example.gorodbezproblem.ui.components
 
-import android.graphics.drawable.shapes.Shape
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,8 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Shapes
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,11 +39,11 @@ fun ProblemItem(problem: Problem, onClick: () -> Unit) {
             // Левая часть с названием и адресом
             Column() {
                 Text(text = problem.title, fontSize = 20.sp)
-                Text(text = problem.specificlocation, fontSize = 12.sp, fontStyle = FontStyle.Italic)
+                Text(text = problem.specificLocation, fontSize = 12.sp, fontStyle = FontStyle.Italic)
             }
 
             // Правая часть с иконкой времени и статусом
-            ProblemStatus(problem.status)
+            problem.status?.let { ProblemStatus(it) }
         }
     }
 }

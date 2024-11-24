@@ -22,16 +22,13 @@ class ProblemViewModel(private val problemId: Int) : ViewModel() {
     private val _errorMessage = MutableStateFlow<String?>(null) // Ошибка
     val errorMessage: StateFlow<String?> = _errorMessage
 
-    init {
-        loadProblem()
-    }
-
-    private fun loadProblem() {
+    fun loadProblem() {
         viewModelScope.launch {
             try {
                 _isLoading.value = true
                 val problem = repository.getProblem(problemId)
                 _problemState.value = problem
+                _errorMessage.value = null // Очистить ошибки, если загрузка успешна
             } catch (e: Exception) {
                 _errorMessage.value = "Ошибка загрузки: ${e.message}"
             } finally {
@@ -40,6 +37,7 @@ class ProblemViewModel(private val problemId: Int) : ViewModel() {
         }
     }
 }
+
 
 class ProblemViewModelFactory(private val problemId: Int) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

@@ -94,8 +94,7 @@ fun BottomNavigationBar(navController: NavHostController) {
             val isHomeScreen = currentRoute == NavigationItem.Home.route ||
                     currentRoute == "location_screen" ||
                     currentRoute == "report_issue"
-            val isTasksScreen = currentRoute.startsWith("tasks") ||
-                    currentRoute.startsWith("problem_view")
+            val isTasksScreen = currentRoute == NavigationItem.Tasks.route || currentRoute?.startsWith("task_details") == true
 
             BottomNavigationItem(
                 icon = {
@@ -137,6 +136,7 @@ fun BottomNavigationBar(navController: NavHostController) {
         }
     }
 }
+
 
 @Composable
 fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifier) {

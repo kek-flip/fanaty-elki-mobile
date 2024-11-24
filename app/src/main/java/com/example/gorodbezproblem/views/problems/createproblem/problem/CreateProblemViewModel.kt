@@ -30,7 +30,7 @@ class CreateProblemViewModel : ViewModel() {
     }
 
     fun onSpecificLocationChange(newLocation: String) {
-        problem = problem.copy(specificlocation = newLocation)
+        problem = problem.copy(specificLocation = newLocation)
     }
 
     // Обработка выбора изображений

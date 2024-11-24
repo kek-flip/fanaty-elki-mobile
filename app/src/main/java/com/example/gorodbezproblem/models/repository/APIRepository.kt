@@ -4,7 +4,6 @@ import com.example.gorodbezproblem.models.Problem
 import com.example.gorodbezproblem.models.api.RetrofitInstance
 import okhttp3.MultipartBody
 
-import okhttp3.RequestBody
 import java.io.File
 import android.content.Context
 import android.database.Cursor
@@ -20,12 +19,25 @@ import okhttp3.RequestBody.Companion.toRequestBody
 class APIRepository {
     private val problemService = RetrofitInstance.getProblemService
 
+    private val mediaBaseUrl = "http://83.166.237.142:8002/"
+
     suspend fun getProblems(): List<Problem> {
-        return problemService.getProblems().Body?.problems!!
+        return problemService.getProblems().Body?.problems!!.map { problem ->
+            val updatedMedia = problem.media.map { mediaId -> "$mediaBaseUrl$mediaId" }
+            problem.copy(media = updatedMedia)
+        }
     }
 
     suspend fun getProblem(problemId: Int): Problem {
-        return problemService.getProblem(problemId)
+        val apiResponse = problemService.getProblem(problemId)
+
+        if (apiResponse.Body != null) {
+            val problem = apiResponse.Body
+            val updatedMedia = problem.media.map { mediaId -> "$mediaBaseUrl$mediaId.jpg" }
+            return problem.copy(media = updatedMedia)
+        } else {
+            throw Exception("Ошибка при получении проблемы: ${apiResponse.Error?.toString() ?: "Неизвестная ошибка"}")
+        }
     }
 
     // Создание проблемы с передачей заголовка, описания и изображений
@@ -35,7 +47,7 @@ class APIRepository {
     ) {
         val titleBody = problem.title.toRequestBody("text/plain".toMediaTypeOrNull())
         val descriptionBody = problem.description.toRequestBody("text/plain".toMediaTypeOrNull())
-        val specificLocationBody = problem.specificlocation.toRequestBody("text/plain".toMediaTypeOrNull())
+        val specificLocationBody = problem.specificLocation.toRequestBody("text/plain".toMediaTypeOrNull())
         val categoryBody = problem.category.toRequestBody("text/plain".toMediaTypeOrNull())
         val latBody = problem.lat.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val longBody = problem.long.toString().toRequestBody("text/plain".toMediaTypeOrNull())

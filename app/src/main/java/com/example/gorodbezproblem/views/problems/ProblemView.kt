@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -17,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
+import com.example.gorodbezproblem.models.api.RetrofitInstance
 
 @Composable
 fun ProblemView(navController: NavHostController, problemId: Int) {
@@ -24,6 +24,12 @@ fun ProblemView(navController: NavHostController, problemId: Int) {
     val problem by viewModel.problemState.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val errorMessage by viewModel.errorMessage.collectAsState()
+
+    val mediaBaseUrl = RetrofitInstance.MEDIA_BASE_URL // Получаем базовый URL для медиа
+
+    LaunchedEffect(problemId) {
+        viewModel.loadProblem()
+    }
 
     Column(
         modifier = Modifier
@@ -76,15 +82,12 @@ fun ProblemView(navController: NavHostController, problemId: Int) {
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
 
-                // Фото проблемы
+                // Фото проблемы (если есть)
                 if (currentProblem.media.isNotEmpty()) {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        currentProblem.media.forEach { photoUrl ->
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        currentProblem.media.forEach { imageUrl ->
                             Image(
-                                painter = rememberAsyncImagePainter(photoUrl),
+                                painter = rememberAsyncImagePainter(imageUrl),
                                 contentDescription = "Problem Image",
                                 modifier = Modifier
                                     .size(100.dp)
@@ -108,7 +111,7 @@ fun ProblemView(navController: NavHostController, problemId: Int) {
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = currentProblem.specificlocation,
+                        text = currentProblem.specificLocation ?: "Неизвестно",
                         style = MaterialTheme.typography.bodyLarge
                     )
                 }
@@ -133,3 +136,4 @@ fun ProblemView(navController: NavHostController, problemId: Int) {
         }
     }
 }
+
