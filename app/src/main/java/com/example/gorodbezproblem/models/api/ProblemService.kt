@@ -25,7 +25,7 @@ interface ProblemService {
     suspend fun getProblems(): APIResponse<ProblemsListResponse, Any>
 
     @GET("/problems/{id}")
-    suspend fun getProblem(@Path("id") problemId: Int): Problem
+    suspend fun getProblem(@Path("id") problemId: Int): APIResponse<Problem, Any>
 
     @Multipart
     @POST("/problems")

@@ -94,7 +94,7 @@ fun BottomNavigationBar(navController: NavHostController) {
             val isHomeScreen = currentRoute == NavigationItem.Home.route ||
                     currentRoute == "location_screen" ||
                     currentRoute == "report_issue"
-            val isTasksScreen = currentRoute == "task_details"
+            val isTasksScreen = currentRoute == NavigationItem.Tasks.route || currentRoute?.startsWith("task_details") == true
 
             BottomNavigationItem(
                 icon = {
@@ -137,6 +137,7 @@ fun BottomNavigationBar(navController: NavHostController) {
     }
 }
 
+
 @Composable
 fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(navController, startDestination = "onboarding", modifier = modifier) {
@@ -144,26 +145,21 @@ fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifi
         composable(NavigationItem.Tasks.route) { TasksScreen(navController) }
         composable(NavigationItem.Profile.route) { ProfileScreen() }
         composable("report_issue") { CreateProblemView(navController) }
-        composable("task_details") { ProblemView(navController) }
+        composable("task_details/{problemId}") { backStackEntry ->
+            val problemId = backStackEntry.arguments?.getString("problemId")?.toInt() ?: -1
+            ProblemView(navController = navController, problemId = problemId)
+        }
         composable("location_screen") { LocationScreen(navController) }
         composable("ai_task") { ProblemAIView(navController) }
         composable("onboarding") { OnboardingView(navController) }
     }
 }
 
-
 @Composable
 fun HomeScreen() {
     Box(modifier = Modifier.fillMaxSize()) {
         // Карта отображается здесь
         MyMapView()
-    }
-}
-
-@Composable
-fun TasksScreen() {
-    Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
-        Text(text = "Tasks Screen", style = MaterialTheme.typography.bodyLarge)
     }
 }
 
