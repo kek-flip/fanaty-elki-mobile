@@ -1,33 +1,23 @@
 package com.example.gorodbezproblem.views.problems.problemai
 
-import android.content.Context
 import android.webkit.JavascriptInterface
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
-import com.example.gorodbezproblem.views.problems.createproblem.problem.CreateProblemViewModel
+import com.example.gorodbezproblem.views.problems.createproblem.problemai.ProblemAIViewModel
 
 class WebAppInterface(
-    private val context: Context,
-    private val viewModel: CreateProblemViewModel,
-    private val navController: NavHostController,
+    private val viewModel: ProblemAIViewModel,
 ) {
     @JavascriptInterface
-    fun onProblemTitleChange(title: String) {
+    fun createProblem(title: String, description: String, location: String) {
         viewModel.onProblemTitleChange(title)
-    }
-
-    @JavascriptInterface
-    fun onProblemDescriptionChange(desc: String) {
-        viewModel.onProblemDescriptionChange(desc)
-    }
-
-    @JavascriptInterface
-    fun onSpecificLocationChange(location: String) {
+        viewModel.onProblemDescriptionChange(description)
         viewModel.onSpecificLocationChange(location)
+        viewModel.approve()
     }
 
     @JavascriptInterface
-    fun createProblem() {
-        viewModel.onSubmitClick(context)
-        navController.navigate("home")
+    fun discardProblem() {
+        viewModel.discard()
     }
 }
