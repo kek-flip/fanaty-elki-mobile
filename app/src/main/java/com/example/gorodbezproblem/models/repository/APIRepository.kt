@@ -9,6 +9,7 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
+import com.example.gorodbezproblem.models.User
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.asRequestBody
 
@@ -18,6 +19,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 
 class APIRepository {
     private val problemService = RetrofitInstance.getProblemService
+    private val userService = RetrofitInstance.getUserService
 
     private val mediaBaseUrl = "http://83.166.237.142:8002/"
 
@@ -83,5 +85,26 @@ class APIRepository {
         }
         return result
     }
+
+    suspend fun registerUser(user: User) {
+        val usernameBody = user.username.toRequestBody("text/plain".toMediaTypeOrNull())
+        val passwordBody = user.password.toRequestBody("text/plain".toMediaTypeOrNull())
+        val phoneBody = user.phone.toRequestBody("text/plain".toMediaTypeOrNull())
+        val birthdayBody = user.birthday.toRequestBody("text/plain".toMediaTypeOrNull())
+        val genderBody = user.gender.toRequestBody("text/plain".toMediaTypeOrNull())
+
+        val response = userService.createUser(
+            username = usernameBody,
+            password = passwordBody,
+            phone = phoneBody,
+            birthday = birthdayBody,
+            gender = genderBody
+        )
+
+        if (response.Error != null) {
+            throw Exception("Ошибка при регистрации: ${response.Error}")
+        }
+    }
+
 }
 

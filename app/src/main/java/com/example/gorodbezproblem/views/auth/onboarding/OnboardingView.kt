@@ -24,7 +24,7 @@ import com.example.gorodbezproblem.views.auth.BaseAuthView
 @Composable
 fun OnboardingView(navController: NavHostController, viewModel: OnboardingViewModel = viewModel()) {
     BaseAuthView {
-        Column (
+        Column(
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             ComposableCarousal(
@@ -39,7 +39,7 @@ fun OnboardingView(navController: NavHostController, viewModel: OnboardingViewMo
                 verticalArrangement = Arrangement.spacedBy(15.dp)
             ) {
                 Button(
-                    onClick = { navController.navigate(NavigationItem.Home.route) },
+                    onClick = { navController.navigate("login") }, // Навигация на экран логина
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(40.dp),
@@ -50,7 +50,7 @@ fun OnboardingView(navController: NavHostController, viewModel: OnboardingViewMo
                 }
 
                 Button(
-                    onClick = { navController.navigate(NavigationItem.Home.route) },
+                    onClick = { navController.navigate("registration") }, // Навигация на экран регистрации
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(40.dp)
@@ -62,6 +62,6 @@ fun OnboardingView(navController: NavHostController, viewModel: OnboardingViewMo
                 }
             }
         }
-
     }
 }
+
