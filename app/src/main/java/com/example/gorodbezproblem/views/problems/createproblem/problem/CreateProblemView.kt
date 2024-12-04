@@ -30,6 +30,9 @@ import com.example.gorodbezproblem.ui.theme.Colors
 @Composable
 fun CreateProblemView(
     navController: NavHostController,
+    title: String,
+    description: String,
+    location: String,
     viewModel: CreateProblemViewModel = viewModel()
 ) {
     // Логика выбора изображений
@@ -39,6 +42,18 @@ fun CreateProblemView(
             viewModel.onImagesSelected(uris)
         }
     )
+
+    LaunchedEffect(title) {
+        viewModel.onProblemTitleChange(title)
+    }
+
+    LaunchedEffect(description) {
+        viewModel.onProblemDescriptionChange(description)
+    }
+
+    LaunchedEffect(location) {
+        viewModel.onSpecificLocationChange(location)
+    }
 
     LaunchedEffect(viewModel.isCreated) {
         if (viewModel.isCreated) {

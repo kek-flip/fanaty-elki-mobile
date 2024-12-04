@@ -25,8 +25,6 @@ fun ProblemView(navController: NavHostController, problemId: Int) {
     val isLoading by viewModel.isLoading.collectAsState()
     val errorMessage by viewModel.errorMessage.collectAsState()
 
-    val mediaBaseUrl = RetrofitInstance.MEDIA_BASE_URL // Получаем базовый URL для медиа
-
     LaunchedEffect(problemId) {
         viewModel.loadProblem()
     }
