@@ -25,6 +25,7 @@ class CreatePasswordViewModel(private val repository: APIRepository = APIReposit
         phoneNumber: String,
         birthDate: String,
         gender: String,
+        password: String,
         onSuccess: () -> Unit,
         onError: (String) -> Unit
     ) {

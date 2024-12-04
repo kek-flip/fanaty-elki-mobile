@@ -17,7 +17,7 @@ fun CreatePasswordView(
     phoneNumber: String,
     birthDate: String,
     gender: String,
-    viewModel: CreatePasswordViewModel = viewModel() // Используем viewModel() правильно
+    viewModel: CreatePasswordViewModel = viewModel()
 ) {
     BaseAuthView {
         var showError by remember { mutableStateOf(false) }
@@ -42,20 +42,29 @@ fun CreatePasswordView(
             )
 
             // Кнопка для завершения регистрации
+            var errorMessage by remember { mutableStateOf("") }
+
             Button(
                 onClick = {
-                    // Проверка на совпадение паролей
-                    if (viewModel.password.isNotBlank() && viewModel.confirmPassword.isNotBlank() && viewModel.password == viewModel.confirmPassword) {
+                    if (viewModel.password.isBlank() || viewModel.confirmPassword.isBlank()) {
+                        errorMessage = "Пароли не могут быть пустыми. Имя: $fullName, Телефон: $phoneNumber"
+                        showError = true
+                    } else if (viewModel.password != viewModel.confirmPassword) {
+                        errorMessage = "Пароли не совпадают. Имя: $fullName, Телефон: $phoneNumber"
+                        showError = true
+                    } else {
                         viewModel.validateAndRegisterUser(
                             fullName = fullName,
                             phoneNumber = phoneNumber,
                             birthDate = birthDate,
                             gender = gender,
-                            onSuccess = { navController.navigate("login") },  // Переход на экран входа
-                            onError = { showError = true }  // Показать ошибку
+                            password = viewModel.password,
+                            onSuccess = { navController.navigate("login") },
+                            onError = { error ->
+                                errorMessage = "Ошибка регистрации: $error. Данные: Имя - $fullName, Пароль - ${viewModel.password}"
+                                showError = true
+                            }
                         )
-                    } else {
-                        showError = true
                     }
                 },
                 modifier = Modifier.fillMaxWidth(),
@@ -64,13 +73,14 @@ fun CreatePasswordView(
                 Text("Зарегистрироваться", color = Colors.Black)
             }
 
-            // Ошибка ввода
             if (showError) {
                 Snackbar(
                     modifier = Modifier.padding(16.dp),
-                    content = { Text("Пожалуйста, заполните все поля корректно.") }
+                    content = { Text(errorMessage) }
                 )
             }
+
         }
     }
 }
+
