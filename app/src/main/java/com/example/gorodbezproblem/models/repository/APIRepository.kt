@@ -92,13 +92,15 @@ class APIRepository {
         val phoneBody = user.phone.toRequestBody("text/plain".toMediaTypeOrNull())
         val birthdayBody = user.birthday.toRequestBody("text/plain".toMediaTypeOrNull())
         val genderBody = user.gender.toRequestBody("text/plain".toMediaTypeOrNull())
+        val isAdminBody = user.isAdmin.toString().toRequestBody("text/plain".toMediaTypeOrNull()) // Преобразуем Boolean в строку
 
         val response = userService.createUser(
             username = usernameBody,
             password = passwordBody,
             phone = phoneBody,
             birthday = birthdayBody,
-            gender = genderBody
+            gender = genderBody,
+            isAdmin = isAdminBody
         )
 
         if (response.Error != null) {

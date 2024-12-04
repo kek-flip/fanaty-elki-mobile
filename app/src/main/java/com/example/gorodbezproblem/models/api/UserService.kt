@@ -15,7 +15,9 @@ interface UserService {
         @Part("password") password: RequestBody,
         @Part("phone") phone: RequestBody,
         @Part("birthday") birthday: RequestBody,
-        @Part("gender") gender: RequestBody
+        @Part("gender") gender: RequestBody,
+        @Part("isAdmin") isAdmin: RequestBody
     ): APIResponse<Unit, Any>
 }
+
 

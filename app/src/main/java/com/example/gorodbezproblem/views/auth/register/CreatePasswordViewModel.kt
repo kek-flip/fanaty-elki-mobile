@@ -26,24 +26,22 @@ class CreatePasswordViewModel(private val repository: APIRepository = APIReposit
         birthDate: String,
         gender: String,
         password: String,
+        isAdmin: Boolean,  // Принимаем isAdmin как параметр
         onSuccess: () -> Unit,
         onError: (String) -> Unit
     ) {
-
         if (password == confirmPassword) {
-
             val user = User(
                 username = fullName,
                 phone = phoneNumber,
                 birthday = birthDate,
                 gender = gender,
-                password = password
+                password = password,
+                isAdmin = isAdmin  // Устанавливаем значение isAdmin
             )
-
 
             viewModelScope.launch {
                 try {
-
                     repository.registerUser(user)
                     registrationSuccess = true
                     onSuccess() // Успех
@@ -60,6 +58,7 @@ class CreatePasswordViewModel(private val repository: APIRepository = APIReposit
             onError(errorMessage)
         }
     }
+
 
     // Обработчики изменения значений паролей
     fun onPasswordChange(newPassword: String) {

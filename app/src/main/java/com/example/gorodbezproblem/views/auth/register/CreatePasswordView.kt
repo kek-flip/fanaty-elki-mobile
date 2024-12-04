@@ -59,6 +59,7 @@ fun CreatePasswordView(
                             birthDate = birthDate,
                             gender = gender,
                             password = viewModel.password,
+                            isAdmin = false,
                             onSuccess = { navController.navigate("login") },
                             onError = { error ->
                                 errorMessage = "Ошибка регистрации: $error. Данные: Имя - $fullName, Пароль - ${viewModel.password}"
