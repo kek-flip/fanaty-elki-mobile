@@ -58,7 +58,7 @@ fun MainScreen() {
         floatingActionButton = {
             if (currentRoute(navController) == NavigationItem.Home.route) {
                 FloatingActionButton(
-                    onClick = { navController.navigate("report_issue") },
+                    onClick = { navController.navigate("report_issue///") },
                     shape = CircleShape,
                     containerColor = Colors.YellowGreen,
                     contentColor = Color.White
@@ -80,7 +80,6 @@ fun MainScreen() {
         }
     }
 }
-
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
@@ -151,7 +150,12 @@ fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifi
         composable(NavigationItem.Home.route) { HomeScreen() }
         composable(NavigationItem.Tasks.route) { TasksScreen(navController) }
         composable(NavigationItem.Profile.route) { ProfileScreen(navController) }
-        composable("report_issue") { CreateProblemView(navController) }
+        composable("report_issue/{title}/{description}/{location}") { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val description = backStackEntry.arguments?.getString("description") ?: ""
+            val location = backStackEntry.arguments?.getString("location") ?: ""
+            CreateProblemView(navController, title, description, location)
+        }
         composable("task_details/{problemId}") { backStackEntry ->
             val problemId = backStackEntry.arguments?.getString("problemId")?.toInt() ?: -1
             ProblemView(navController = navController, problemId = problemId)
@@ -171,7 +175,6 @@ fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifi
 
     }
 }
-
 
 @Composable
 fun HomeScreen() {
