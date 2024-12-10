@@ -25,12 +25,17 @@ import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.unit.dp
+import com.example.gorodbezproblem.MainActivity
 import com.example.gorodbezproblem.ui.theme.Colors
+import com.example.gorodbezproblem.views.auth.login.LoginView
 import com.example.gorodbezproblem.views.auth.onboarding.OnboardingView
+import com.example.gorodbezproblem.views.auth.register.CreatePasswordView
+import com.example.gorodbezproblem.views.auth.register.RegistrationView
 import com.example.gorodbezproblem.views.profile.ProfileScreen
 import com.example.gorodbezproblem.views.problems.ProblemView
 import com.example.gorodbezproblem.views.location.LocationScreen
@@ -41,13 +46,14 @@ import com.example.gorodbezproblem.views.problems.problemai.ProblemAIView
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
-    val skipBottomBar = listOf("onboarding")
+    val skipBottomBar = listOf("onboarding", "login", "registration") // Убираем "create_password" из списка, будем проверять отдельно
 
     Scaffold(
         bottomBar = {
-            if (!skipBottomBar.contains(currentRoute(navController))) BottomNavigationBar(
-                navController
-            )
+            val currentRoute = currentRoute(navController)
+            if (currentRoute == null || !skipBottomBar.contains(currentRoute) && !currentRoute.startsWith("create_password")) {
+                BottomNavigationBar(navController)
+            }
         },
         floatingActionButton = {
             if (currentRoute(navController) == NavigationItem.Home.route) {
@@ -143,7 +149,7 @@ fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifi
     NavHost(navController, startDestination = "onboarding", modifier = modifier) {
         composable(NavigationItem.Home.route) { HomeScreen() }
         composable(NavigationItem.Tasks.route) { TasksScreen(navController) }
-        composable(NavigationItem.Profile.route) { ProfileScreen() }
+        composable(NavigationItem.Profile.route) { ProfileScreen(navController) }
         composable("report_issue/{title}/{description}/{location}") { backStackEntry ->
             val title = backStackEntry.arguments?.getString("title") ?: ""
             val description = backStackEntry.arguments?.getString("description") ?: ""
@@ -157,6 +163,16 @@ fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifi
         composable("location_screen") { LocationScreen(navController) }
         composable("ai_task") { ProblemAIView(navController) }
         composable("onboarding") { OnboardingView(navController) }
+        composable("login") { LoginView(navController) }
+        composable("registration") { RegistrationView(navController) }
+        composable("create_password/{fullName}/{phoneNumber}/{birthDate}/{gender}") { backStackEntry ->
+            val fullName = backStackEntry.arguments?.getString("fullName") ?: ""
+            val phoneNumber = backStackEntry.arguments?.getString("phoneNumber") ?: ""
+            val birthDate = backStackEntry.arguments?.getString("birthDate") ?: ""
+            val gender = backStackEntry.arguments?.getString("gender") ?: ""
+            CreatePasswordView(navController, fullName, phoneNumber, birthDate, gender)
+        }
+
     }
 }
 

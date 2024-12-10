@@ -9,13 +9,16 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.gorodbezproblem.MainActivity
 import com.example.gorodbezproblem.R
 import com.example.gorodbezproblem.modules.NavigationItem
+import com.example.gorodbezproblem.modules.getAuthToken
 import com.example.gorodbezproblem.ui.components.ComposableCarousal
 import com.example.gorodbezproblem.ui.theme.Colors
 import com.example.gorodbezproblem.ui.theme.UIConstants
@@ -23,8 +26,16 @@ import com.example.gorodbezproblem.views.auth.BaseAuthView
 
 @Composable
 fun OnboardingView(navController: NavHostController, viewModel: OnboardingViewModel = viewModel()) {
+    val token = getAuthToken(MainActivity.applicationContext())
+
+    LaunchedEffect(token) {
+        if (token != null) {
+            navController.navigate("home")
+        }
+    }
+
     BaseAuthView {
-        Column (
+        Column(
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             ComposableCarousal(
@@ -39,7 +50,7 @@ fun OnboardingView(navController: NavHostController, viewModel: OnboardingViewMo
                 verticalArrangement = Arrangement.spacedBy(15.dp)
             ) {
                 Button(
-                    onClick = { navController.navigate(NavigationItem.Home.route) },
+                    onClick = { navController.navigate("login") }, // Навигация на экран логина
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(40.dp),
@@ -50,7 +61,7 @@ fun OnboardingView(navController: NavHostController, viewModel: OnboardingViewMo
                 }
 
                 Button(
-                    onClick = { navController.navigate(NavigationItem.Home.route) },
+                    onClick = { navController.navigate("registration") }, // Навигация на экран регистрации
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(40.dp)
@@ -62,6 +73,6 @@ fun OnboardingView(navController: NavHostController, viewModel: OnboardingViewMo
                 }
             }
         }
-
     }
 }
+

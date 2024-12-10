@@ -17,4 +17,9 @@ object RetrofitInstance {
     val getProblemService: ProblemService by lazy {
         retrofit.create(ProblemService::class.java)
     }
+
+    val getUserService: UserService by lazy {
+        retrofit.create(UserService::class.java)
+    }
+
 }

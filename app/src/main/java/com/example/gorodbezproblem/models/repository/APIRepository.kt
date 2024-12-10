@@ -9,6 +9,9 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
+import android.util.Log
+import com.example.gorodbezproblem.models.AuthInfo
+import com.example.gorodbezproblem.models.User
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.asRequestBody
 
@@ -18,6 +21,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 
 class APIRepository {
     private val problemService = RetrofitInstance.getProblemService
+    private val userService = RetrofitInstance.getUserService
 
     private val mediaBaseUrl = "http://83.166.237.142:8002/"
 
@@ -47,7 +51,8 @@ class APIRepository {
     ) {
         val titleBody = problem.title.toRequestBody("text/plain".toMediaTypeOrNull())
         val descriptionBody = problem.description.toRequestBody("text/plain".toMediaTypeOrNull())
-        val specificLocationBody = problem.specificLocation.toRequestBody("text/plain".toMediaTypeOrNull())
+        val specificLocationBody =
+            problem.specificLocation.toRequestBody("text/plain".toMediaTypeOrNull())
         val categoryBody = problem.category.toRequestBody("text/plain".toMediaTypeOrNull())
         val latBody = problem.lat.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val longBody = problem.long.toString().toRequestBody("text/plain".toMediaTypeOrNull())
@@ -65,7 +70,8 @@ class APIRepository {
 
     // Преобразование Uri в MultipartBody.Part
     fun createMultipartBodyPart(uri: Uri, context: Context): MultipartBody.Part {
-        val filePath = getRealPathFromURI(context, uri) ?: throw IllegalArgumentException("Invalid URI")
+        val filePath =
+            getRealPathFromURI(context, uri) ?: throw IllegalArgumentException("Invalid URI")
         val file = File(filePath)
         val requestBody = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
         return MultipartBody.Part.createFormData("mediaFiles", file.name, requestBody)
@@ -82,6 +88,21 @@ class APIRepository {
             it.close()
         }
         return result
+    }
+
+    suspend fun registerUser(user: User) {
+        userService.createUser(user)
+    }
+
+    suspend fun auth(phone: String, password: String): String {
+        val authInfo = AuthInfo(phone, password)
+
+        val res = userService.auth(authInfo)
+
+        val headers = res.headers()
+        val authToken = headers["X-Auth-Token"] ?: return ""
+
+        return authToken
     }
 }
 
