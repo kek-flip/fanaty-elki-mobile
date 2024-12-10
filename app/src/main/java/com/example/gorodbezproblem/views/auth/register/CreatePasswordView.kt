@@ -19,9 +19,9 @@ fun CreatePasswordView(
     gender: String,
     viewModel: CreatePasswordViewModel = viewModel()
 ) {
+    var errorMessage by remember { mutableStateOf("") }
+    var showError by remember { mutableStateOf(false) }
     BaseAuthView {
-        var showError by remember { mutableStateOf(false) }
-
         Column(verticalArrangement = Arrangement.spacedBy(20.dp)) {
             Text("Создайте пароль", style = MaterialTheme.typography.bodyLarge)
 
@@ -42,8 +42,6 @@ fun CreatePasswordView(
             )
 
             // Кнопка для завершения регистрации
-            var errorMessage by remember { mutableStateOf("") }
-
             Button(
                 onClick = {
                     if (viewModel.password.isBlank() || viewModel.confirmPassword.isBlank()) {
@@ -58,7 +56,6 @@ fun CreatePasswordView(
                             phoneNumber = phoneNumber,
                             birthDate = birthDate,
                             gender = gender,
-                            password = viewModel.password,
                             isAdmin = false,
                             onSuccess = { navController.navigate("login") },
                             onError = { error ->

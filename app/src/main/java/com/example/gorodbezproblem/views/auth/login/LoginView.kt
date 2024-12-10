@@ -14,6 +14,12 @@ import com.example.gorodbezproblem.views.auth.BaseAuthView
 
 @Composable
 fun LoginView(navController: NavHostController, viewModel: LoginViewModel = viewModel()) {
+    LaunchedEffect(viewModel.isAuth) {
+        if (viewModel.isAuth) {
+            navController.navigate("home")
+        }
+    }
+
     BaseAuthView {
         Column(
             verticalArrangement = Arrangement.spacedBy(20.dp)
@@ -37,7 +43,7 @@ fun LoginView(navController: NavHostController, viewModel: LoginViewModel = view
             // Кнопки
             Column(verticalArrangement = Arrangement.spacedBy(15.dp)) {
                 Button(
-                    onClick = { navController.navigate(NavigationItem.Home.route) },
+                    onClick = { viewModel.onLogin() },
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(containerColor = Colors.YellowGreen)
                 ) {

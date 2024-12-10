@@ -9,6 +9,8 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
+import android.util.Log
+import com.example.gorodbezproblem.models.AuthInfo
 import com.example.gorodbezproblem.models.User
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -49,7 +51,8 @@ class APIRepository {
     ) {
         val titleBody = problem.title.toRequestBody("text/plain".toMediaTypeOrNull())
         val descriptionBody = problem.description.toRequestBody("text/plain".toMediaTypeOrNull())
-        val specificLocationBody = problem.specificLocation.toRequestBody("text/plain".toMediaTypeOrNull())
+        val specificLocationBody =
+            problem.specificLocation.toRequestBody("text/plain".toMediaTypeOrNull())
         val categoryBody = problem.category.toRequestBody("text/plain".toMediaTypeOrNull())
         val latBody = problem.lat.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val longBody = problem.long.toString().toRequestBody("text/plain".toMediaTypeOrNull())
@@ -67,7 +70,8 @@ class APIRepository {
 
     // Преобразование Uri в MultipartBody.Part
     fun createMultipartBodyPart(uri: Uri, context: Context): MultipartBody.Part {
-        val filePath = getRealPathFromURI(context, uri) ?: throw IllegalArgumentException("Invalid URI")
+        val filePath =
+            getRealPathFromURI(context, uri) ?: throw IllegalArgumentException("Invalid URI")
         val file = File(filePath)
         val requestBody = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
         return MultipartBody.Part.createFormData("mediaFiles", file.name, requestBody)
@@ -87,26 +91,18 @@ class APIRepository {
     }
 
     suspend fun registerUser(user: User) {
-        val usernameBody = user.username.toRequestBody("text/plain".toMediaTypeOrNull())
-        val passwordBody = user.password.toRequestBody("text/plain".toMediaTypeOrNull())
-        val phoneBody = user.phone.toRequestBody("text/plain".toMediaTypeOrNull())
-        val birthdayBody = user.birthday.toRequestBody("text/plain".toMediaTypeOrNull())
-        val genderBody = user.gender.toRequestBody("text/plain".toMediaTypeOrNull())
-        val isAdminBody = user.isAdmin.toString().toRequestBody("text/plain".toMediaTypeOrNull()) // Преобразуем Boolean в строку
-
-        val response = userService.createUser(
-            username = usernameBody,
-            password = passwordBody,
-            phone = phoneBody,
-            birthday = birthdayBody,
-            gender = genderBody,
-            isAdmin = isAdminBody
-        )
-
-        if (response.Error != null) {
-            throw Exception("Ошибка при регистрации: ${response.Error}")
-        }
+        userService.createUser(user)
     }
 
+    suspend fun auth(phone: String, password: String): String {
+        val authInfo = AuthInfo(phone, password)
+
+        val res = userService.auth(authInfo)
+
+        val headers = res.headers()
+        val authToken = headers["X-Auth-Token"] ?: return ""
+
+        return authToken
+    }
 }
 

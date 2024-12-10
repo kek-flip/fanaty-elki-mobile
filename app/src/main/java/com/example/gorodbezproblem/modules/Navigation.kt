@@ -25,10 +25,12 @@ import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.unit.dp
+import com.example.gorodbezproblem.MainActivity
 import com.example.gorodbezproblem.ui.theme.Colors
 import com.example.gorodbezproblem.views.auth.login.LoginView
 import com.example.gorodbezproblem.views.auth.onboarding.OnboardingView
@@ -148,7 +150,7 @@ fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifi
     NavHost(navController, startDestination = "onboarding", modifier = modifier) {
         composable(NavigationItem.Home.route) { HomeScreen() }
         composable(NavigationItem.Tasks.route) { TasksScreen(navController) }
-        composable(NavigationItem.Profile.route) { ProfileScreen() }
+        composable(NavigationItem.Profile.route) { ProfileScreen(navController) }
         composable("report_issue") { CreateProblemView(navController) }
         composable("task_details/{problemId}") { backStackEntry ->
             val problemId = backStackEntry.arguments?.getString("problemId")?.toInt() ?: -1
