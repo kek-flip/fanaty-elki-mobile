@@ -1,13 +1,14 @@
-import android.view.LayoutInflater
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.gorodbezproblem.MainActivity
 import com.example.gorodbezproblem.R
 import com.example.gorodbezproblem.models.Problem
+import com.example.gorodbezproblem.modules.getAuthToken
 import com.example.gorodbezproblem.views.map.MapViewModel
 import com.yandex.mapkit.Animation
 import com.yandex.mapkit.geometry.Point

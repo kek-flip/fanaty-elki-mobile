@@ -17,10 +17,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import com.example.gorodbezproblem.MainActivity
+import com.example.gorodbezproblem.modules.deleteAuthToken
 import com.example.gorodbezproblem.ui.theme.Colors
 
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(navController: NavHostController) {
     // Создаем состояния для полей ввода
     var name by remember { mutableStateOf("") }
     var phoneNumber by remember { mutableStateOf("") }
@@ -91,7 +94,10 @@ fun ProfileScreen() {
 
         // Кнопка "Выйти" с красным шрифтом
         TextButton(
-            onClick = { /* Добавить логику выхода */ },
+            onClick = {
+                deleteAuthToken(MainActivity.applicationContext())
+                navController.navigate("login")
+            },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
@@ -101,10 +107,4 @@ fun ProfileScreen() {
             )
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ProfileScreenPreview() {
-    ProfileScreen()
 }
