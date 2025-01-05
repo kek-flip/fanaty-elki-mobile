@@ -29,6 +29,12 @@ fun ProblemView(navController: NavHostController, problemId: Int) {
         viewModel.loadProblem()
     }
 
+    LaunchedEffect(viewModel.inNotAuth) {
+        if (viewModel.inNotAuth) {
+            navController.navigate("login")
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()

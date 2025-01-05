@@ -10,8 +10,10 @@ import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
+import com.example.gorodbezproblem.MainActivity
 import com.example.gorodbezproblem.models.AuthInfo
 import com.example.gorodbezproblem.models.User
+import com.example.gorodbezproblem.modules.getAuthToken
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.asRequestBody
 
@@ -25,15 +27,15 @@ class APIRepository {
 
     private val mediaBaseUrl = "http://83.166.237.142:8002/"
 
-    suspend fun getProblems(): List<Problem> {
-        return problemService.getProblems().Body?.problems!!.map { problem ->
+    suspend fun getProblems(token: String): List<Problem> {
+        return problemService.getProblems(token).Body?.problems!!.map { problem ->
             val updatedMedia = problem.media.map { mediaId -> "$mediaBaseUrl$mediaId" }
             problem.copy(media = updatedMedia)
         }
     }
 
-    suspend fun getProblem(problemId: Int): Problem {
-        val apiResponse = problemService.getProblem(problemId)
+    suspend fun getProblem(problemId: Int, token: String): Problem {
+        val apiResponse = problemService.getProblem(problemId, token)
 
         if (apiResponse.Body != null) {
             val problem = apiResponse.Body
@@ -47,7 +49,8 @@ class APIRepository {
     // Создание проблемы с передачей заголовка, описания и изображений
     suspend fun createProblem(
         problem: Problem,
-        mediaParts: List<MultipartBody.Part>
+        mediaParts: List<MultipartBody.Part>,
+        token: String,
     ) {
         val titleBody = problem.title.toRequestBody("text/plain".toMediaTypeOrNull())
         val descriptionBody = problem.description.toRequestBody("text/plain".toMediaTypeOrNull())
@@ -64,7 +67,8 @@ class APIRepository {
             category = categoryBody,
             lat = latBody,
             long = longBody,
-            mediaFiles = mediaParts
+            mediaFiles = mediaParts,
+            token,
         )
     }
 

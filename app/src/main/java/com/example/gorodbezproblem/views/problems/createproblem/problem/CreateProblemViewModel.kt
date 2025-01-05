@@ -7,8 +7,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.gorodbezproblem.MainActivity
 import com.example.gorodbezproblem.models.Problem
 import com.example.gorodbezproblem.models.repository.APIRepository
+import com.example.gorodbezproblem.modules.getAuthToken
 import kotlinx.coroutines.launch
 
 
@@ -19,6 +21,7 @@ class CreateProblemViewModel : ViewModel() {
     var selectedImages: List<Uri> by mutableStateOf(emptyList()) // Список выбранных изображений
     var isCreated by mutableStateOf(false) // Статус создания
     var isError by mutableStateOf(false) // Статус ошибки
+    var inNotAuth by mutableStateOf(false)
 
     // Обработчики изменения данных
     fun onProblemTitleChange(newTitle: String) {
@@ -42,15 +45,23 @@ class CreateProblemViewModel : ViewModel() {
     fun onSubmitClick(context: Context) {
         viewModelScope.launch {
             try {
-                val mediaParts = selectedImages.map { uri ->
-                    repository.createMultipartBodyPart(uri, context)
-                }
+                val token = getAuthToken(MainActivity.applicationContext())
 
-                repository.createProblem(
-                    problem = problem,
-                    mediaParts = mediaParts
-                )
-                isCreated = true
+                if (token == null) {
+                    inNotAuth = true
+                } else {
+
+                    val mediaParts = selectedImages.map { uri ->
+                        repository.createMultipartBodyPart(uri, context)
+                    }
+
+                    repository.createProblem(
+                        problem = problem,
+                        mediaParts = mediaParts,
+                        token
+                    )
+                    isCreated = true
+                }
             } catch (e: Exception) {
                 isError = true
                 e.printStackTrace()
