@@ -5,6 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.example.gorodbezproblem.MainActivity
 import com.example.gorodbezproblem.R
 import com.example.gorodbezproblem.models.Problem
@@ -19,10 +20,17 @@ import com.yandex.runtime.image.ImageProvider
 
 @Composable
 fun MyMapView(
-    viewModel: MapViewModel = viewModel()
+    navController: NavHostController,
+    viewModel: MapViewModel = viewModel(),
 ) {
     LaunchedEffect(Unit) {
         viewModel.loadProblems()
+    }
+
+    LaunchedEffect(viewModel.inNotAuth) {
+        if (viewModel.inNotAuth) {
+            navController.navigate("login")
+        }
     }
 
     AndroidView(

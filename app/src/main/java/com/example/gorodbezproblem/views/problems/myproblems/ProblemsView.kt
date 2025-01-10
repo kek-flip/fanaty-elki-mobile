@@ -26,6 +26,12 @@ fun TasksScreen(
         viewModel.loadProblems()
     }
 
+    LaunchedEffect(viewModel.inNotAuth) {
+        if (viewModel.inNotAuth) {
+            navController.navigate("login")
+        }
+    }
+
     Column(
         modifier = Modifier
             .padding(UIConstants.SidesPadding)

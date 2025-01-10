@@ -55,6 +55,12 @@ fun CreateProblemView(
         viewModel.onSpecificLocationChange(location)
     }
 
+    LaunchedEffect(viewModel.inNotAuth) {
+        if (viewModel.inNotAuth) {
+            navController.navigate("login")
+        }
+    }
+
     LaunchedEffect(viewModel.isCreated) {
         if (viewModel.isCreated) {
             navController.popBackStack()
