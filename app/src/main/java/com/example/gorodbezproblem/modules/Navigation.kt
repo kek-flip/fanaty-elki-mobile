@@ -61,7 +61,7 @@ fun MainScreen() {
                     onClick = { navController.navigate("report_issue///") },
                     shape = CircleShape,
                     containerColor = Colors.YellowGreen,
-                    contentColor = Color.White
+                    contentColor = White
                 ) {
                     Icon(Icons.Outlined.Add, contentDescription = "Add")
                 }
@@ -71,6 +71,7 @@ fun MainScreen() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .background(White)
                 .padding(innerPadding)  // Отступ для учёта навигационной панели
         ) {
             NavigationHost(

@@ -3,11 +3,13 @@ package com.example.gorodbezproblem.views.problems.createproblem.problem
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -35,6 +37,16 @@ fun CreateProblemView(
     location: String,
     viewModel: CreateProblemViewModel = viewModel()
 ) {
+    // Обрабатываем переданный адрес из `SavedStateHandle`
+    LaunchedEffect(navController.currentBackStackEntry?.savedStateHandle) {
+        val selectedAddress = navController.currentBackStackEntry
+            ?.savedStateHandle
+            ?.get<String>("selectedAddress")
+        selectedAddress?.let {
+            viewModel.onSpecificLocationChange(it) // Обновляем в ViewModel
+        }
+    }
+
     // Логика выбора изображений
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetMultipleContents(),
@@ -152,13 +164,31 @@ fun CreateProblemView(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Поле для ввода адреса
-        TitledTextField(
-            title = "Место",
-            value = viewModel.problem.specificLocation, // Связываем с ViewModel
-            onValueChange = { viewModel.onSpecificLocationChange(it) },
-            placeholder = "Введите адрес места"
-        )
+        // Поле для выбора адреса
+        Column(
+            verticalArrangement = Arrangement.spacedBy(15.dp),
+        ) {
+            Text(text = "Место", fontSize = 16.sp)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { navController.navigate("location_screen") },
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.Default.LocationOn,
+                    contentDescription = "Иконка местоположения",
+                    tint = Color.Black,
+                    modifier = Modifier.size(24.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = viewModel.problem.specificLocation.ifEmpty { "Выберите место" }, // Показываем текст из ViewModel или заглушку
+                    fontSize = 16.sp,
+                    color = if (viewModel.problem.specificLocation.isNotEmpty()) Color.Black else Color.Gray
+                )
+            }
+        }
 
         Spacer(modifier = Modifier.height(32.dp))
 
