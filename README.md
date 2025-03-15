@@ -5,5 +5,6 @@
 Наша общая цель - сделать жизнь города комфортнее для проживания, но службам не всегда достаточно обратной связи для этого. И если  в крупных городах системы  по решению различных коммунальных проблем ещё более менее налажены, то в маленьких городах ситуация гораздо плачевнее. 
 Поэтому мы, команда разработчиков Фанаты Ёлки, сделали удобное приложение для сбора заявок по решению коммунальных проблем городскими службами. Оно позволяет людям подавать заявки по таким проблемам и удобно и легко следить за статусом их решения, чтобы сделать благоустройство города прозрачным а работу городских служб - эффективной
 
-[Фигма](https://www.figma.com/design/xwxsHahQa3v9843yKjAgrC/UrbanCare?node-id=171-2376&t=qJ3e2grVjWIw25HN-1)
-[Презентация проекта](https://docs.google.com/presentation/d/1uiQZnkuRvmXsHVeiEX9-CpmOJtROPnt1T7tJF2JPPgA/edit?usp=sharing)
+[Фигма](https://www.figma.com/design/xwxsHahQa3v9843yKjAgrC/UrbanCare?node-id=171-2376&t=qJ3e2grVjWIw25HN-1)  
+[Презентация проекта](https://docs.google.com/presentation/d/1uiQZnkuRvmXsHVeiEX9-CpmOJtROPnt1T7tJF2JPPgA/edit?usp=sharing)  
+[Веб-часть проекта](https://github.com/kek-flip/fanaty-elki-web)
