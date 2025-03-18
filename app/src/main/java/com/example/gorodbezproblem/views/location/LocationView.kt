@@ -18,7 +18,7 @@ import com.example.gorodbezproblem.ui.theme.Colors
 fun LocationScreen(navController: NavHostController) {
     // Карта будет на заднем плане
     Box(modifier = Modifier.fillMaxSize()) {
-        MyMapView() // Здесь отображается карта
+        MyMapView(navController) // Здесь отображается карта
 
         // Блок с текстом и кнопкой внизу экрана
         Column(

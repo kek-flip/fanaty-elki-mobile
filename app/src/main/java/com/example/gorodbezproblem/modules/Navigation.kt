@@ -147,7 +147,7 @@ fun BottomNavigationBar(navController: NavHostController) {
 @Composable
 fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(navController, startDestination = "onboarding", modifier = modifier) {
-        composable(NavigationItem.Home.route) { HomeScreen() }
+        composable(NavigationItem.Home.route) { HomeScreen(navController) }
         composable(NavigationItem.Tasks.route) { TasksScreen(navController) }
         composable(NavigationItem.Profile.route) { ProfileScreen(navController) }
         composable("report_issue/{title}/{description}/{location}") { backStackEntry ->
@@ -177,10 +177,10 @@ fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifi
 }
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavHostController,) {
     Box(modifier = Modifier.fillMaxSize()) {
         // Карта отображается здесь
-        MyMapView()
+        MyMapView(navController)
     }
 }
 
